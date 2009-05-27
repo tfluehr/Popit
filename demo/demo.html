@@ -1,0 +1,159 @@
+<!--
+Copyright (c) 2009 Michael Harris michael@harrisdev.net
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+If you do choose to use this,
+please drop me an email at michael@harrisdev.net
+I would like to see where this ends up :)
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<link rel="stylesheet" type="text/css" href="../css/defaultPopIt.css" />
+		<link rel="stylesheet" type="text/css" href="demo.css" />
+		<title>Demo</title>
+
+		<script src="../script/lib/prototype-1.6.0.3.js" type="text/javascript"></script>
+		<script src="../script/lib/scriptaculous.js?load=effects,dragdrop" type="text/javascript"></script>
+		<script src="../script/PopIt.js" type="text/javascript"></script>
+		<script src="demo.js" type="text/javascript"></script>
+
+	</head>
+	<body>
+		<div class="container">
+			<form id="customLinkForm">
+				<div class="example">
+					<h2>PopIt</h2>
+					PopIt is a dynamically generated, draggable, resiable popup window that has many custom options. 
+					
+					It was built using prototype and web programming standards in mind so that there is cleaner code and easily managable.
+				</div>			
+				<div class="example">
+					<a href="#" id="simplePopIt" onclick="new PopIt('simple PopIt');return false;">simple PopIt</a>
+						<div>
+							this is the simplist PopIt possible, just simply pass it the text that you want to see in the window<br>
+							it is draggable around the screen<br>
+							has minimize, maximize and close buttons<br>
+							has resizable borders<br>
+							and is automatically centered on the screen
+						</div>
+					<pre>new PopIt('simple PopIt');</pre>
+				</div>
+				<div class="example">
+					<a href="#" id="loremIpsumLink">Open Larger Window</a>
+<div>
+	for a slightly more clomplicated PopIt we supply a lot more text<br>
+	width and height information to make it a bit bigger <br>
+	a title<br>
+	and set the status text<br>
+</div>
+<pre>var PopIt = new PopIt($('lorem').innerHTML, 
+{
+	title: 'Lorem ipsum',
+	height: '400px',
+	width: '600px',
+});
+PopIt.updateStatusText("lorem ipsum");</pre>
+				</div>
+				<div class="example">
+					<a href="#" id="modelLoremIpsumLink">Open Model Window</a>
+<div>
+	this one is a slight modification of the previous example<br>
+	we make it just a bit smaller<br>
+	make it a modal dialog so that only one PopIt can be opened at a time and it must be closed before working with the document<br>
+	turn off dragging and resizing functionality
+</div>
+<pre>var PopIt = new PopIt($('lorem').innerHTML, 
+{
+	title: 'Lorem ipsum',
+	height: '200px',
+	width: '300px',
+	isModal: true,
+	isDraggable: false,
+	isResizable: false
+});
+
+PopIt.updateStatusText("lorem ipsum");</pre>
+				</div>
+				<div class="example">
+					<input id="customLinkInput" value="http://www.harrisdev.net" />
+					<a href="#" id="customLink">Open Custom url</a>
+<div>
+	with this final example we supply the content as a url. <br>
+	you then have to set isUrl = true<br>
+	this causes the content to load in an iframe<br>
+	be warned that standard issues with iframes exist such as events not bubbling to the parent window
+</div>
+<pre>new PopIt(url, 
+{
+	isUrl: true
+});</pre>
+				</div>
+				<div class="example">
+<div>here is a list of all of the options available along with their default values</div>
+<pre>title = '&nbsp;'; //the window title
+parent = $(document.body); //what element to insert the PopIt into
+height = '200px'; //the height of the PopIt
+width = '200px'; // the width of the PopIt
+shimOpacity = 0.9; // the opacity to use for the various cover divs
+isModal = false; // if he window is a modal dialog or not
+isDraggable  = true; // if dragging is enabled
+isResizable = true; // if resizing is enabled
+isMinimizable = true; // if minimize functions are enabled
+isMaximizable = true; // if maximize functions are enabled
+isClosable = true; // if closing functions are enabled
+escapeClosesPopIt = true; // if pressing the escape key closes all PopIts
+isUrl = false; // if content type is a url and an iframe should be used
+offsetTop = 20; //the amount of px to add to the top of the PopIt
+effectDuration = 0.5; // the duration of the various effects that happen with the PopIt
+this.className = "defaultPopIt"; //the base classname to use for the PopIt 
+</pre>
+
+				</div>
+			</form>
+			
+			<div id="lorem" style="display:none;">
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eget ligula mauris, at interdum erat. Cras magna ligula, sagittis vel iaculis ac, placerat eget diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus nec tellus dui, vitae elementum dui. Donec nec dui tellus, sed euismod ipsum. Cras sed nisi tortor. Quisque at magna velit. Maecenas sed urna magna, a vehicula nunc. Cras ac leo eu purus lacinia fringilla. Nam quis lectus nisl. Aenean sed mattis diam. Etiam non vulputate diam.
+	
+	Cras a diam sit amet justo vulputate sollicitudin. Aenean sit amet lectus nunc. Mauris consequat mi eget orci luctus pulvinar. Mauris pharetra porta euismod. In sit amet adipiscing diam. In neque odio, imperdiet sed vulputate a, vulputate ultricies erat. Donec vel dui ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum in neque non odio commodo tincidunt. Nam sed cursus mi. Aliquam in nisi vitae quam rutrum mattis id non dolor.
+	
+	Vestibulum vitae nulla purus. Suspendisse vulputate faucibus quam sit amet vehicula. Maecenas et magna sed arcu fringilla vestibulum. Maecenas ullamcorper dui a neque laoreet ut condimentum risus dictum. Integer malesuada turpis varius justo ultrices rhoncus. Suspendisse ultrices diam ornare ipsum fermentum id scelerisque sem vehicula. Nam dictum ullamcorper dolor a bibendum. Vestibulum interdum, eros in pulvinar ornare, lectus ipsum varius diam, vel euismod magna sem at justo. Pellentesque accumsan nisl sed enim molestie non bibendum leo aliquam. Nullam ullamcorper odio at augue vulputate sit amet tempus ante ornare.
+	
+	Cras tempor nisl sit amet nunc pulvinar sit amet dictum mi egestas. Maecenas lacinia mollis neque vitae commodo. Integer consectetur vehicula odio, in tristique ligula hendrerit eget. Nullam ac turpis ut nunc gravida lobortis et nec libero. Donec ac orci velit. Duis molestie dolor cursus felis pretium ultricies. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum eu justo leo, vitae condimentum purus. Etiam diam lacus, pretium ac bibendum id, tincidunt non arcu. Nam nec diam vitae diam varius rutrum. Nulla facilisi. Suspendisse faucibus, lectus sit amet venenatis egestas, eros magna molestie ipsum, et congue lorem augue quis lacus. Vestibulum imperdiet aliquet sollicitudin. Fusce molestie cursus nibh, eget pretium mauris aliquet vel.
+	
+	Fusce sit amet elit quam, eu elementum velit. Sed non justo vel leo ornare condimentum in sit amet tellus. Maecenas pharetra tortor ac eros consectetur ac egestas leo malesuada. Mauris fermentum velit id nunc cursus consequat vitae et felis. Duis mauris justo, vulputate id placerat ac, consectetur at felis. Cras quis mi at arcu placerat fermentum a sit amet nisl. Donec pharetra eleifend mi, vitae scelerisque tellus tincidunt eget. Morbi suscipit gravida mi, a egestas nulla pretium vitae. Nullam condimentum mattis ornare. Quisque diam mauris, consectetur eu congue quis, suscipit et massa. Phasellus sagittis sagittis nisi ut tristique. Donec pellentesque, nibh vitae dictum mollis, quam magna gravida elit, vitae dignissim nulla est sed mauris. In hac habitasse platea dictumst. Integer at dui neque, vel fringilla urna. In ut egestas elit. Donec molestie lacus id dui mollis blandit. Duis faucibus accumsan orci et convallis.
+	
+	In hac habitasse platea dictumst. Quisque aliquam tempus ligula, ut pellentesque nunc luctus ut. Duis dictum tempus elit, eget aliquet metus rutrum at. Vivamus vel nulla vehicula sapien gravida consequat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi blandit eleifend nibh, non vehicula augue dictum sed. Fusce mollis dignissim libero, eu suscipit enim sodales ac. Vestibulum aliquet mauris et dui suscipit pretium. Suspendisse ultrices volutpat velit ornare pharetra. In hac habitasse platea dictumst.
+	
+	Phasellus in est quis sapien fermentum commodo a ut nibh. Aliquam tempor ligula placerat tellus adipiscing ultricies. Nullam sit amet nibh justo. Donec eget adipiscing nulla. Aliquam erat volutpat. Vivamus blandit consectetur risus id tristique. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam vulputate, neque vel dignissim suscipit, arcu magna bibendum neque, viverra placerat augue augue eu quam. Nunc in facilisis purus. Ut ut risus felis, id faucibus turpis. Curabitur facilisis consectetur eleifend. Curabitur eu mauris non nibh ultrices porta. Nulla pharetra hendrerit arcu vitae molestie. Nunc sit amet pulvinar elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris pellentesque, turpis id hendrerit vulputate, turpis diam ornare ante, ut eleifend metus risus eget risus. Sed ullamcorper, lorem sed varius rutrum, lorem risus pharetra augue, nec elementum odio leo et neque.
+	
+	Mauris fermentum quam vitae neque euismod suscipit. Aliquam pharetra mi quis lacus ultrices et sagittis metus venenatis. In eget interdum leo. Vestibulum sagittis tempus mollis. Donec eu libero orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc non nisl arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti. Vivamus vel nunc vitae nunc mattis aliquet vitae eget mi. Curabitur quis sem at metus blandit varius id ut odio. Nullam interdum ultrices purus sed lacinia. Cras mollis mattis neque, et egestas mi consectetur et.
+	
+	Mauris id mi risus. Nullam feugiat suscipit mollis. Nunc tincidunt venenatis dolor elementum rhoncus. Aenean dapibus commodo aliquet. Etiam tempor placerat venenatis. Donec quam massa, dapibus at dapibus sed, placerat in ipsum. Ut dapibus lacinia justo, eget ultrices justo feugiat a. Etiam ligula arcu, mollis et dapibus eu, molestie vitae purus. Fusce consequat gravida sem quis rhoncus. Etiam tortor libero, facilisis et euismod sed, rhoncus tempus felis. Ut est ante, condimentum in auctor convallis, aliquet fermentum neque. Maecenas lectus risus, ornare in feugiat non, tincidunt id tellus. Curabitur at vestibulum nisi.
+	
+	Duis at mi nec augue mollis volutpat ac vel elit. Cras tempor, lacus in vestibulum venenatis, eros lorem laoreet enim, ac varius arcu erat sit amet lectus. Proin volutpat congue tincidunt. Nulla eget luctus augue. Maecenas eu cursus augue. Nam laoreet enim congue sem dapibus consequat. Suspendisse vitae sapien quis risus scelerisque lacinia in nec quam. Curabitur sollicitudin consectetur nibh quis lobortis. Ut at condimentum mi. Aliquam euismod aliquet arcu, non volutpat justo eleifend at. Donec tempus ornare risus, nec mattis libero varius a. Mauris tempor est non dolor lobortis nec hendrerit libero convallis. Aenean ligula felis, facilisis in fringilla et, adipiscing quis dui. Nulla fermentum, nunc ullamcorper vulputate venenatis, metus nibh ultrices sapien, sit amet molestie enim risus et massa. Proin dapibus, lacus sit amet molestie consectetur, urna nulla imperdiet nulla, sit amet pharetra nunc massa a enim. Aenean at dui sit amet odio vestibulum rhoncus. Maecenas pulvinar laoreet dolor, et congue sem euismod in. Aenean lorem odio, bibendum at rhoncus vel, tempus quis dolor. Proin quis nisl id ante laoreet cursus non at odio. 
+			</div>
+		</div>
+	</body>
+</html>

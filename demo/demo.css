@@ -1,0 +1,63 @@
+/*
+
+Copyright (c) 2009 Michael Harris michael@harrisdev.net
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+If you do choose to use this,
+please drop me an email at michael@harrisdev.net
+I would like to see where this ends up :)
+
+*/
+
+
+html, body
+{
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	
+	background-color: #AABBCC;
+	font-family: Arial;
+}
+
+h2
+{
+	font-weight: normal;
+	font-family: verdana;
+}
+
+.container
+{
+	width: 90%;
+	margin: auto;
+}
+
+.example 
+{
+	background-color: #DDDDDD;
+	padding: 20px;
+	clear: both;
+	overflow: auto;
+	margin-bottom: 1em;
+}
