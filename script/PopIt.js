@@ -49,6 +49,7 @@ PopIt.prototype = {
 		this.content = content;
 		this.title = '&nbsp;'; //the window title
 		this.parent = $(document.body); //what element to insert the PopIt into
+		this.scrollElement = document.documentElement ? document.documentElement : document.body;
 		this.height = '200px'; //the height of the PopIt
 		this.width = '200px'; // the width of the PopIt
 		this.shimOpacity = 0.9; // the opacity to use for the various cover divs
@@ -63,6 +64,7 @@ PopIt.prototype = {
 		this.offsetTop = 20; //the amount of px to add to the top of the PopIt
 		this.effectDuration = 0.5; //the duration of the various effects that happen with the PopIt
 		this.className = "defaultPopIt"; //the base classname to use for the PopIt 
+
 		
 		Object.extend(this, params);
 		
@@ -97,7 +99,7 @@ PopIt.prototype = {
 			this.titleDrag = new Draggable(this.PopIt, 
 			{
 				handle: this.titleBarDiv,
-				scroll: this.parent,
+				scroll: this.scrollElement,
 				onStart: function(draggable, event)
 				{
 					if (this.isUrl) 
@@ -323,7 +325,7 @@ PopIt.prototype = {
 			className: this.className
 		}).setStyle(
 			{
-				top: (this.parent.cumulativeScrollOffset().top + this.offsetTop) + 'px',
+				top: (this.scrollElement.scrollTop + this.offsetTop) + 'px',
 				width: this.width,
 				height: this.height
 			});
@@ -340,7 +342,7 @@ PopIt.prototype = {
 				className: 'ModalShim'
 			}).setStyle(
 			{
-				height: this.parent.scrollHeight + 'px',
+				height: this.scrollElement.scrollHeight + 'px',
 				opacity: this.shimOpacity
 			});
 			this.modalShim.hide();
@@ -583,7 +585,7 @@ PopIt.prototype = {
 				style:
 				{
 					left: '0px',
-					top: this.parent.cumulativeScrollOffset().top + 'px',
+					top: this.scrollElement.scrollTop + 'px',
 					width: (this.parent.getWidth() - 5) + 'px',
 					height: (this.parent.getHeight() - 5) + 'px'
 				},
