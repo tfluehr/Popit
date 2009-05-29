@@ -35,7 +35,7 @@ document.observe("dom:loaded", function()
 		{
 			title: 'Lorem ipsum',
 			height: '400px',
-			width: '600px',
+			width: '600px'
 		});
 		
 		popIt.updateStatusText("lorem ipsum");

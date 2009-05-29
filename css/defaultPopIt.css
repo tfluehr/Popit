@@ -181,7 +181,8 @@ I would like to see where this ends up :)
 	width: 25px;
 	height: 20px;
 	background-repeat: no-repeat;
-	display: inline-block;
+	display: block;
+	float: left;
 	margin: 2px 0 0 2px;
 }
 

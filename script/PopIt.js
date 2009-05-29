@@ -323,11 +323,10 @@ PopIt.prototype = {
 			className: this.className
 		}).setStyle(
 			{
-				top: (this.parent.scrollTop + this.offsetTop) + 'px',
+				top: (this.parent.cumulativeScrollOffset().top + this.offsetTop) + 'px',
 				width: this.width,
 				height: this.height
 			});
-		
 		this.generateTitleBar()
 		this.generateContentDiv();
 		this.generateStatusBarDiv();			
@@ -489,7 +488,7 @@ PopIt.prototype = {
 			this.contentDiv.setStyle(
 			{
 				padding: '0'
-			})
+			});
 		}
 		
 		this.PopIt.insert(this.contentDiv);
@@ -578,13 +577,13 @@ PopIt.prototype = {
 			this.left = parseInt(this.PopIt.getStyle('left'), 10);
 			this.top = parseInt(this.PopIt.getStyle('top'), 10);
 			this.maximizeButton.addClassName('restoreButton');
-			
+
 			new Effect.Morph(this.PopIt,
 			{
 				style:
 				{
 					left: '0px',
-					top: this.parent.scrollTop + 'px',
+					top: this.parent.cumulativeScrollOffset().top + 'px',
 					width: (this.parent.getWidth() - 5) + 'px',
 					height: (this.parent.getHeight() - 5) + 'px'
 				},
