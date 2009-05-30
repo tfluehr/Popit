@@ -50,7 +50,7 @@ PopIt.prototype = {
 		this.title = '&nbsp;'; //the window title
 		this.parent = $(document.body); //what element to insert the PopIt into
 		this.scrollElement = document.documentElement ? document.documentElement : document.body;
-		this.height = '200px'; //the height of the PopIt
+		this.height = '150px'; //the height of the PopIt
 		this.width = '200px'; // the width of the PopIt
 		this.shimOpacity = 0.9; // the opacity to use for the various cover divs
 		this.isModal = false; // if he window is a modal dialog or not
@@ -78,7 +78,7 @@ PopIt.prototype = {
 		if (this.escapeClosesPopIt) 
 		{
 			this.keyDownHandler = this.keyDown.bindAsEventListener(this);
-			Event.observe(window, 'keydown', this.keyDownHandler);
+			Event.observe(document, 'keydown', this.keyDownHandler);
 		}
 	},
 	
@@ -99,9 +99,10 @@ PopIt.prototype = {
 			this.titleDrag = new Draggable(this.PopIt, 
 			{
 				handle: this.titleBarDiv,
-				scroll: this.scrollElement,
+				scroll: $(this.scrollElement),//todo ie doesnt like this for some reason
 				onStart: function(draggable, event)
 				{
+					console.log('meh');
 					if (this.isUrl) 
 					{
 						this.createShim();
@@ -144,20 +145,21 @@ PopIt.prototype = {
 			constraint: 'vertical',
 			onStart: function(draggable, event)
 			{
-				this.origY = event.pointerY();
+				this.origY = event.pointerY() - parseInt(this.PopIt.getStyle('padding-bottom'), 10);;
 				this.showDragShim(draggable, 'TB');
 			}.bind(this),
 			onEnd: function(draggable, event)
 			{
-				var y = event.pointerY();
+				var y = event.pointerY() - parseInt(this.PopIt.getStyle('padding-bottom'), 10);
 				this.height = this.PopIt.getHeight() + (this.origY - y);
 				if (y < 10)
 				{
 					this.height += y;
 					y = 10;
 				}
-				
+				this.height -= parseInt(this.PopIt.getStyle('padding-bottom'), 10)
 				this.height += 'px';
+				y += parseInt(this.PopIt.getStyle('padding-bottom'), 10);
 				y += 'px';
 								
 				this.PopIt.setStyle(
@@ -220,21 +222,22 @@ PopIt.prototype = {
 			constraint: 'vertical',
 			onStart: function(draggable, event)
 			{
-				this.origY = event.pointerY();
+				this.origY = event.pointerY() - this.scrollElement.scrollTop;
 				this.showDragShim(draggable, 'TB');
 			}.bind(this),
 			onEnd: function(draggable, event)
 			{
-				var y = event.pointerY();
+				var y = event.pointerY() - this.scrollElement.scrollTop;
 				this.height = this.PopIt.getHeight() + (y - this.origY);
 				
 				var parentHeight = this.parent.getHeight() - 10;
 				if (y > parentHeight)
 				{
-					var sub = (parentHeight - y);
+					var sub = parentHeight - y; 
 					y += sub;
 					this.height += sub;
 				}
+				this.height -= parseInt(this.PopIt.getStyle('padding-bottom'), 10)
 				this.height += 'px';
 				y += 'px';
 				
@@ -475,6 +478,7 @@ PopIt.prototype = {
 		{
 			this.content = new Element('iframe', 
 			{
+				frameborder: 0, //required for ie
 				className: 'ContentIFrame',
 				src: this.content
 			});
@@ -510,19 +514,20 @@ PopIt.prototype = {
 	{
 		event.stop();
 		this.isMinimized = !this.isMinimized;
-		this.hideIframe();
 		
 		if (this.isMinimized)
 		{
+            this.PopIt.setStyle(
+			{
+				minHeight: '0'
+			});
 			new Effect.Morph(this.PopIt, 
             {
                 style: 
                 {
-                    height: '40px',
-                    minHeight: '0'
+                    height: '0px'
                 },
-				duration: this.effectDuration,
-				afterFinish: this.showIframe.bind(this)
+				duration: this.effectDuration
             });
 		}
 		else
@@ -539,28 +544,12 @@ PopIt.prototype = {
 					height: height,
 					minHeight: ''
 				},
-				duration: this.effectDuration,
-				afterFinish: this.showIframe.bind(this)
+				duration: this.effectDuration
 			});
 			this.contentDiv.show();
 			this.statusBarDiv.show();
 		}
 		
-	},
-	
-	hideIframe: function()
-	{
-		if (this.isUrl)
-		{
-			this.content.hide();
-		}
-	},
-	showIframe: function()
-	{
-		if (this.isUrl)
-		{
-			this.content.show();
-		}
 	},
 	
 	maximize: function(event)
@@ -573,25 +562,22 @@ PopIt.prototype = {
 		this.isMaximized = !this.isMaximized;
 		this.isMinimized = true;//this will maximize the window into view gets toggled back in this.minimize();
 		this.minimize(event);
-		this.hideIframe();
 		if (this.isMaximized) 
 		{
 			this.left = parseInt(this.PopIt.getStyle('left'), 10);
 			this.top = parseInt(this.PopIt.getStyle('top'), 10);
 			this.maximizeButton.addClassName('restoreButton');
-
+			var popitPadding = parseInt(this.PopIt.getStyle('padding-bottom'), 10);
 			new Effect.Morph(this.PopIt,
 			{
 				style:
 				{
 					left: '0px',
 					top: this.scrollElement.scrollTop + 'px',
-					width: (this.parent.getWidth() - 5) + 'px',
-					height: (this.parent.getHeight() - 5) + 'px'
+					width: (this.parent.getWidth() - 3) + 'px',
+					height: (this.parent.getHeight() - popitPadding - 3) + 'px'
 				},
-				duration: this.effectDuration,
-				afterFinish: this.showIframe.bind(this)
-				
+				duration: this.effectDuration
 			});
 			if (this.isResizable) 
 			{
@@ -613,8 +599,7 @@ PopIt.prototype = {
 					left: this.left + 'px',
 					top: this.top + 'px'
 				},
-				duration: this.effectDuration,
-				afterFinish: this.showIframe.bind(this)
+				duration: this.effectDuration
 			});
 			if (this.isResizable)
 			{
