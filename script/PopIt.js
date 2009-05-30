@@ -49,9 +49,9 @@ PopIt.prototype = {
 		this.content = content;
 		this.title = '&nbsp;'; //the window title
 		this.parent = $(document.body); //what element to insert the PopIt into
-		this.scrollElement = document.documentElement ? document.documentElement : document.body;
-		this.height = '150px'; //the height of the PopIt
-		this.width = '200px'; // the width of the PopIt
+		this.scrollElement = document.documentElement && document.documentElement.scrollTop ? document.documentElement : document.body;
+		this.height = 150; //the height of the PopIt
+		this.width = 200; // the width of the PopIt
 		this.shimOpacity = 0.9; // the opacity to use for the various cover divs
 		this.isModal = false; // if he window is a modal dialog or not
 		this.isDraggable  = true; // if dragging is enabled
@@ -166,13 +166,10 @@ PopIt.prototype = {
 					y -= dif; 
 				}
 
-				this.height += 'px';
-				y += 'px';
-								
-				this.popIt.setStyle(
+			    this.popIt.setStyle(
 				{
-					top: y,
-					height: this.height
+					top: y + 'px',
+					height: this.height + 'px'
 				});
 				this.topResizeDiv.setStyle(
 				{
@@ -228,14 +225,10 @@ PopIt.prototype = {
 					x -= dif; 
 				}
 								
-				this.width += 'px';
-				x += 'px';
-
-
 				this.popIt.setStyle(
 				{
-					right: x,
-					width: this.width
+					right: x + 'px',
+					width: this.width + 'px'
 				});
 				this.rightResizeDiv.setStyle(
 				{
@@ -278,13 +271,9 @@ PopIt.prototype = {
 					y -= dif; 
 				}
 				
-				
-				this.height += 'px';
-				y += 'px';
-				
 				this.popIt.setStyle(
 				{
-					height: this.height
+					height: this.height + 'px'
 				});
 				this.bottomResizeDiv.setStyle(
 				{
@@ -339,12 +328,12 @@ PopIt.prototype = {
 					x -= dif; 
 				}
 				
-				this.width += 'px';
-				x += 'px';
+				this.width;
+				x;
 				this.popIt.setStyle(
 				{
-					left: x,
-					width: this.width
+					left: x + 'px',
+					width: this.width + 'px'
 				});
 				this.leftResizeDiv.setStyle(
 				{
@@ -395,8 +384,8 @@ PopIt.prototype = {
 		}).setStyle(
 			{
 				top: (this.scrollElement.scrollTop + this.offsetTop) + 'px',
-				width: this.width,
-				height: this.height
+				width: this.width + 'px',
+				height: this.height + 'px'
 			});
 		this.generateTitleBar()
 		this.generateContentDiv();
@@ -603,25 +592,66 @@ PopIt.prototype = {
                 },
 				duration: this.effectDuration
             });
+			if (this.isResizable) 
+			{
+				this.topResizeDiv.hide();
+				this.bottomResizeDiv.hide();
+				this.rightResizeDiv.setStyle(
+				{
+					height: this.popIt.getStyle('paddingBottom')
+				});
+				this.leftResizeDiv.setStyle(
+				{
+					height: this.popIt.getStyle('paddingBottom')
+				});
+			}
+			if (this.shim)
+			{
+				this.shim.setStyle(
+				{
+					height: this.popIt.getStyle('paddingBottom')
+				});
+			}
 		}
 		else
 		{
 			var height = this.height;
+
 			if (this.isMaximized)
 			{
-				height = (this.parent.getHeight() - 5) + 'px'
+				height = (this.parent.getHeight() - 5);
 			}
 			new Effect.Morph(this.popIt,
 			{
 				style:
 				{
-					height: height,
+					height: height + 'px',
 					minHeight: ''
 				},
 				duration: this.effectDuration
 			});
 			this.contentDiv.show();
 			this.statusBarDiv.show();
+			if (this.isResizable) 
+			{
+				this.topResizeDiv.show();
+				this.bottomResizeDiv.show();
+				this.rightResizeDiv.setStyle(
+				{
+					height: (height + parseInt(this.popIt.getStyle('padding-bottom'), 10)) + 'px'
+				});
+				this.leftResizeDiv.setStyle(
+				{
+					height: (height + parseInt(this.popIt.getStyle('padding-bottom'), 10)) + 'px'
+				});
+			}
+			if (this.shim)
+			{
+				this.shim.setStyle(
+				{
+					height: (height + parseInt(this.popIt.getStyle('padding-bottom'), 10)) + 'px'
+				});
+			}
 		}
 		
 	},
@@ -668,8 +698,8 @@ PopIt.prototype = {
 			{
 				style:
 				{
-					width: this.width,
-					height: this.height,
+					width: this.width + 'px',
+					height: this.height +'px',
 					left: this.left + 'px',
 					top: this.top + 'px'
 				},

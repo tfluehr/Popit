@@ -34,8 +34,8 @@ document.observe("dom:loaded", function()
 		var popIt = new PopIt($('lorem').innerHTML, 
 		{
 			title: 'Lorem ipsum',
-			height: '400px',
-			width: '600px'
+			height: 400,
+			width: 600
 		});
 		
 		popIt.updateStatusText("lorem ipsum");
@@ -47,8 +47,8 @@ document.observe("dom:loaded", function()
 		var popIt = new PopIt($('lorem').innerHTML, 
 		{
 			title: 'Lorem ipsum',
-			height: '200px',
-			width: '300px',
+			height: 200,
+			width: 300,
 			isModal: true,
 			isDraggable: false,
 			isResizable: false
@@ -74,8 +74,8 @@ document.observe("dom:loaded", function()
 		var popIt = new PopIt(url, 
 		{
 			isUrl: true,
-			width: '80%',
-			height: '80%'
+			width: 800,
+			height: 400
 		});
 		
 	}
