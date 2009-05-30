@@ -99,7 +99,6 @@ PopIt.prototype = {
 			this.titleDrag = new Draggable(this.popIt, 
 			{
 				handle: this.titleBarDiv,
-				scroll: $(this.scrollElement),//todo ie doesnt like this for some reason
 				onStart: function(draggable, event)
 				{
 					if (this.isUrl) 
