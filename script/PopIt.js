@@ -72,7 +72,7 @@ PopIt.prototype = {
 		//todo more css
 		
 		this.generatePopIt();
-
+		
 		this.centerHandler = this.center.bindAsEventListener(this);
 		Event.observe(window, 'resize', this.centerHandler);
 		if (this.escapeClosesPopIt) 
@@ -143,20 +143,20 @@ PopIt.prototype = {
 			constraint: 'vertical',
 			onStart: function(draggable, event)
 			{
-				this.origY = event.pointerY() - parseInt(this.popIt.getStyle('padding-bottom'), 10);;
+				this.origY = event.pointerY() - this.padBottom;
 				this.showDragShim(draggable, 'TB');
 			}.bind(this),
 			onEnd: function(draggable, event)
 			{
-				var y = event.pointerY() - parseInt(this.popIt.getStyle('padding-bottom'), 10);
+				var y = event.pointerY() - this.padBottom;
 				this.height = this.popIt.getHeight() + (this.origY - y);
 				if (y < 10)
 				{
 					this.height += y;
 					y = 10;
 				}
-				this.height -= parseInt(this.popIt.getStyle('padding-bottom'), 10)
-				y += parseInt(this.popIt.getStyle('padding-bottom'), 10);
+				this.height -= this.padBottom;
+				y += this.padBottom;
 				
 				var minHeight = parseInt(this.popIt.getStyle('min-height'), 10)
 				if (this.height < minHeight) 
@@ -261,7 +261,7 @@ PopIt.prototype = {
 					y += sub;
 					this.height += sub;
 				}
-				this.height -= parseInt(this.popIt.getStyle('padding-bottom'), 10);
+				this.height -= this.padBottom;
 				
 				var minHeight = parseInt(this.popIt.getStyle('min-height'), 10)
 				if (this.height < minHeight) 
@@ -412,6 +412,7 @@ PopIt.prototype = {
 		}
 		this.popIt.hide();
 		this.parent.insert(this.popIt);
+		this.padBottom = parseInt(this.popIt.getStyle('padding-bottom'), 10);
 		this.center();
 		this.generateResizeElements();	
 		new Effect.Appear(this.popIt, 
@@ -638,18 +639,18 @@ PopIt.prototype = {
 				this.bottomResizeDiv.show();
 				this.rightResizeDiv.setStyle(
 				{
-					height: (height + parseInt(this.popIt.getStyle('padding-bottom'), 10)) + 'px'
+					height: (height + this.padBottom) + 'px'
 				});
 				this.leftResizeDiv.setStyle(
 				{
-					height: (height + parseInt(this.popIt.getStyle('padding-bottom'), 10)) + 'px'
+					height: (height + this.padBottom) + 'px'
 				});
 			}
 			if (this.shim)
 			{
 				this.shim.setStyle(
 				{
-					height: (height + parseInt(this.popIt.getStyle('padding-bottom'), 10)) + 'px'
+					height: (height + this.padBottom) + 'px'
 				});
 			}
 		}
@@ -671,7 +672,6 @@ PopIt.prototype = {
 			this.left = parseInt(this.popIt.getStyle('left'), 10);
 			this.top = parseInt(this.popIt.getStyle('top'), 10);
 			this.maximizeButton.addClassName('restoreButton');
-			var popitPadding = parseInt(this.popIt.getStyle('padding-bottom'), 10);
 			new Effect.Morph(this.popIt,
 			{
 				style:
@@ -679,7 +679,7 @@ PopIt.prototype = {
 					left: '0px',
 					top: this.scrollElement.scrollTop + 'px',
 					width: (this.parent.getWidth() - 3) + 'px',
-					height: (this.parent.getHeight() - popitPadding - 3) + 'px'
+					height: (this.parent.getHeight() - this.padBottom - 3) + 'px'
 				},
 				duration: this.effectDuration
 			});
