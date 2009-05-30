@@ -158,8 +158,17 @@ PopIt.prototype = {
 					y = 10;
 				}
 				this.height -= parseInt(this.PopIt.getStyle('padding-bottom'), 10)
-				this.height += 'px';
 				y += parseInt(this.PopIt.getStyle('padding-bottom'), 10);
+				
+				var minHeight = parseInt(this.PopIt.getStyle('min-height'), 10)
+				if (this.height < minHeight) 
+				{
+					var dif = minHeight - this.height;
+					this.height = minHeight; 
+					y -= dif; 
+				}
+
+				this.height += 'px';
 				y += 'px';
 								
 				this.PopIt.setStyle(
@@ -197,6 +206,14 @@ PopIt.prototype = {
 					x += sub;
 					this.width += sub;
 				}
+				var minWidth = parseInt(this.PopIt.getStyle('min-width'), 10)
+				if (this.width < minWidth) 
+				{
+					var dif = minWidth - this.width;
+					this.width = minWidth; 
+					x -= dif; 
+				}
+								
 				this.width += 'px';
 				x += 'px';
 
@@ -237,7 +254,17 @@ PopIt.prototype = {
 					y += sub;
 					this.height += sub;
 				}
-				this.height -= parseInt(this.PopIt.getStyle('padding-bottom'), 10)
+				this.height -= parseInt(this.PopIt.getStyle('padding-bottom'), 10);
+				
+				var minHeight = parseInt(this.PopIt.getStyle('min-height'), 10)
+				if (this.height < minHeight) 
+				{
+					var dif = minHeight - this.height;
+					this.height = minHeight; 
+					y -= dif; 
+				}
+				
+				
 				this.height += 'px';
 				y += 'px';
 				
@@ -274,6 +301,14 @@ PopIt.prototype = {
 					this.width += x - 10;
 					x = 10;
 				}
+				var minWidth = parseInt(this.PopIt.getStyle('min-width'), 10)
+				if (this.width < minWidth) 
+				{
+					var dif = minWidth - this.width;
+					this.width = minWidth; 
+					x -= dif; 
+				}
+				
 				this.width += 'px';
 				x += 'px';
 				this.PopIt.setStyle(
