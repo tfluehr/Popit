@@ -195,8 +195,3 @@ I would like to see where this ends up :)
 {
 	background-image: url('../images/close.png');
 }
-
-.topResize, .rightResize, .bottomResize, .leftResize
-{
-	background-color: red!important;
-}

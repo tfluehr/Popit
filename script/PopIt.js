@@ -102,7 +102,6 @@ PopIt.prototype = {
 				scroll: $(this.scrollElement),//todo ie doesnt like this for some reason
 				onStart: function(draggable, event)
 				{
-					console.log('meh');
 					if (this.isUrl) 
 					{
 						this.createShim();
@@ -180,6 +179,22 @@ PopIt.prototype = {
 				{
 					bottom: '',
 					top: ''
+				});
+				if (this.shim)			
+				{
+					this.shim.setStyle(
+					{
+						height: this.PopIt.getHeight() + 'px'
+					});
+				}
+				
+				this.rightResizeDiv.setStyle(
+				{
+					height: this.PopIt.getHeight() + 'px'
+				});
+				this.leftResizeDiv.setStyle(
+				{
+					height: this.PopIt.getHeight() + 'px'
 				});
 				
 				this.origY = null;
@@ -278,6 +293,22 @@ PopIt.prototype = {
 					top: ''
 				});
 				
+				if (this.shim)			
+				{
+					this.shim.setStyle(
+					{
+						height: this.PopIt.getHeight() + 'px'
+					});
+				}
+				this.rightResizeDiv.setStyle(
+				{
+					height: this.PopIt.getHeight() + 'px'
+				});
+				this.leftResizeDiv.setStyle(
+				{
+					height: this.PopIt.getHeight() + 'px'
+				});
+				
 				this.origY = null;
 				this.hideDragShim(draggable);
 			}.bind(this)
@@ -337,6 +368,7 @@ PopIt.prototype = {
 				className: 'shim'
 			}).setStyle(
 				{
+					height: this.PopIt.getHeight() + 'px',
 					opacity: this.shimOpacity
 				});
 		}
@@ -371,8 +403,6 @@ PopIt.prototype = {
 		this.generateContentDiv();
 		this.generateStatusBarDiv();			
 		
-		this.generateResizeElements();	
-		
 		if (this.isModal) 
 		{
 			this.modalShim = new Element('div', 
@@ -395,6 +425,7 @@ PopIt.prototype = {
 		this.PopIt.hide();
 		this.parent.insert(this.PopIt);
 		this.center();
+		this.generateResizeElements();	
 		new Effect.Appear(this.PopIt, 
 		{
 			duration: this.effectDuration
@@ -451,6 +482,15 @@ PopIt.prototype = {
 		this.leftResizeDiv = new Element('div', 
 		{
 			className: 'leftResize'
+		});
+		
+		this.rightResizeDiv.setStyle(
+		{
+			height: this.PopIt.getHeight() + 'px'
+		});
+		this.leftResizeDiv.setStyle(
+		{
+			height: this.PopIt.getHeight() + 'px'
 		});
 		
 		this.PopIt.insert(this.leftResizeDiv);
