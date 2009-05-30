@@ -27,7 +27,7 @@
 //I would like to see where this ends up :)
 
 var PopIt = Class.create();
-PopIt.version = 0.1;
+PopIt.version = 0.2;
 
 PopIt.prototype = {
     initialize: function(content, params)
