@@ -576,7 +576,10 @@ PopIt.prototype = {
 	
 	minimize: function(event)
 	{
-		event.stop();
+		if (event) 
+		{
+			event.stop();
+		}
 		this.isMinimized = !this.isMinimized;
 		
 		if (this.isMinimized)
@@ -659,10 +662,13 @@ PopIt.prototype = {
 	
 	maximize: function(event)
 	{
-		event.stop();
-		if (event.element().hasClassName('minimizeButton'))
+		if (event) 
 		{
-			return;
+			event.stop();
+			if (event.element().hasClassName('minimizeButton')) 
+			{
+				return;
+			}
 		}
 		this.isMaximized = !this.isMaximized;
 		this.isMinimized = true;//this will maximize the window into view gets toggled back in this.minimize();
@@ -717,7 +723,10 @@ PopIt.prototype = {
 	
 	close: function(event)
 	{
-		event.stop();
+		if (event) 
+		{
+			event.stop();
+		}
 		if (this.modalShim) 
 		{
 			new Effect.Fade(this.modalShim,
