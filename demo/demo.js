@@ -28,6 +28,14 @@
 
 document.observe("dom:loaded", function()
 {
+	
+	$('simplePopIt').observe('click', function(event)
+	{
+		event.stop();
+		var popIt = new PopIt('simple PopIt');
+	});
+	
+	
 	$('loremIpsumLink').observe("click", function(event)
 	{
 		event.stop();
@@ -35,7 +43,8 @@ document.observe("dom:loaded", function()
 		{
 			title: 'Lorem ipsum',
 			height: 400,
-			width: 600
+			width: 600, 
+			className: 'bluePopIt'
 		});
 		
 		popIt.updateStatusText("lorem ipsum");
@@ -58,8 +67,6 @@ document.observe("dom:loaded", function()
 	});
 	
 	$('customLink').observe("click", customLinkClick);
-	
-	
 	$('customLinkForm').observe('submit', customLinkClick);
 		
 	function customLinkClick(event)

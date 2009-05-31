@@ -42,7 +42,7 @@ I would like to see where this ends up :)
 	background-color: #CCCCCC;
 }
 
-.defaultPopIt
+.popIt
 {
 	position: absolute;
 	padding-bottom:42px;
@@ -56,7 +56,7 @@ I would like to see where this ends up :)
 	color: black;
 }
 
-.defaultPopIt .TitleBar
+.popIt .TitleBar
 {
 	text-align:center;
 	height: 21px;
@@ -68,12 +68,12 @@ I would like to see where this ends up :)
 	border-bottom: solid 1px #333333;
 }
 
-.defaultPopIt .Controls
+.popIt .Controls
 {
 	float: right;
 }
 
-.defaultPopIt .Content
+.popIt .Content
 {
 	padding-left: 20px;
 	padding-right: 20px;
@@ -82,7 +82,7 @@ I would like to see where this ends up :)
 	background-color: #FFFFFF;	
 }
 
-.defaultPopIt .ContentIFrame
+.popIt .ContentIFrame
 {
 	width: 100%;
 	height: 100%;
@@ -90,7 +90,7 @@ I would like to see where this ends up :)
 	margin-bottom: -20px;
 }
 
-.defaultPopIt .Status
+.popIt .Status
 {
 	height: 20px;
 	padding-left: 40px;
@@ -98,11 +98,11 @@ I would like to see where this ends up :)
 	white-space: nowrap;
 	overflow: hidden;
 	
-	background-color: #F6F2EF;
+	background-color: #EFEBE7;
 	color: #AAAAAA;
 }
 
-.defaultPopIt .leftResize
+.popIt .leftResize
 {
 	position:absolute;
 	background-color: transparent;
@@ -114,7 +114,7 @@ I would like to see where this ends up :)
 	cursor:w-resize;
 }
 
-.defaultPopIt .topResize
+.popIt .topResize
 {
 	position:absolute;
 	background-color: transparent;
@@ -125,7 +125,7 @@ I would like to see where this ends up :)
 	top: -10px;
 }
 
-.defaultPopIt .bottomResize
+.popIt .bottomResize
 {
 	position:absolute;
 	background-color: transparent;
@@ -136,7 +136,7 @@ I would like to see where this ends up :)
 	cursor: s-resize;
 }
 
-.defaultPopIt .rightResize
+.popIt .rightResize
 {
 	position:absolute;
 	background-color: transparent;
@@ -148,18 +148,18 @@ I would like to see where this ends up :)
 	cursor: e-resize;
 }
 
-.defaultPopIt .resizingLR
+.popIt .resizingLR
 {
 	border-left: dashed;
 	
 }
 
-.defaultPopIt .resizingTB
+.popIt .resizingTB
 {
 	border-top: dashed;
 }
 
-.defaultPopIt .shim
+.popIt .shim
 {
 	width: 100%;
 	height: 100%;
@@ -170,7 +170,7 @@ I would like to see where this ends up :)
 	background-color: #DDDDDD;
 }
 
-.defaultPopIt .minimizeButton, .defaultPopIt .maximizeButton, .defaultPopIt .restoreButton, .defaultPopIt .closeButton
+.popIt .minimizeButton, .popIt .maximizeButton, .popIt .restoreButton, .popIt .closeButton
 {
 	width: 25px;
 	height: 20px;
@@ -180,22 +180,22 @@ I would like to see where this ends up :)
 	margin: 2px 0 0 2px;
 }
 
-.defaultPopIt .minimizeButton
+.popIt .minimizeButton
 {
 	background-image: url('../images/minimize.png');
 }
 
-.defaultPopIt .maximizeButton
+.popIt .maximizeButton
 {
 	background-image: url('../images/maximize.png');
 }
 
-.defaultPopIt .restoreButton
+.popIt .restoreButton
 {
 	background-image: url('../images/restore.png');	
 }
 
-.defaultPopIt .closeButton
+.popIt .closeButton
 {
 	background-image: url('../images/close.png');
 }

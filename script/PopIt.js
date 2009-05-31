@@ -63,7 +63,7 @@ PopIt.prototype = {
 		this.isUrl = false; // if content type is a url and an iframe should be used
 		this.offsetTop = 20; //the amount of px to add to the top of the PopIt
 		this.effectDuration = 0.5; //the duration of the various effects that happen with the PopIt
-		this.className = "defaultPopIt"; //the base classname to use for the PopIt 
+		this.className = ""; //the base classname to use for the PopIt 
 
 		
 		Object.extend(this, params);
@@ -380,7 +380,7 @@ PopIt.prototype = {
     {
 		this.popIt = new Element('div',
 		{
-			className: this.className
+			className: "popIt " + this.className
 		}).setStyle(
 			{
 				top: (this.scrollElement.scrollTop + this.offsetTop) + 'px',

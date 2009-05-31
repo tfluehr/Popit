@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-		<link rel="stylesheet" type="text/css" href="../css/defaultPopIt.css" />
+		<link rel="stylesheet" type="text/css" href="../css/PopIt.css" />
+		<link rel="stylesheet" type="text/css" href="../css/BluePopIt.css" />
 		<link rel="stylesheet" type="text/css" href="demo.css" />
 		<title>Demo</title>
 
@@ -22,7 +23,7 @@
 					It was built using prototype and web programming standards in mind so that there is cleaner code and easily managable.
 				</div>			
 				<div class="example">
-					<a href="" id="simplePopIt" onclick="new PopIt('simple PopIt');return false;">simple PopIt</a>
+					<a href="" id="simplePopIt">simple PopIt</a>
 						<div>
 							this is the simplist PopIt possible, just simply pass it the text that you want to see in the window<br>
 							it is draggable around the screen<br>
@@ -45,6 +46,7 @@
 	title: 'Lorem ipsum',
 	height: 400,
 	width: 600,
+	className: 'bluePopIt'
 });
 PopIt.updateStatusText("lorem ipsum");</pre>
 				</div>
@@ -98,7 +100,7 @@ escapeClosesPopIt = true; // if pressing the escape key closes all PopIts
 isUrl = false; // if content type is a url and an iframe should be used
 offsetTop = 20; //the amount of px to add to the top of the PopIt
 effectDuration = 0.5; // the duration of the various effects that happen with the PopIt
-this.className = "defaultPopIt"; //the base classname to use for the PopIt 
+this.className = ""; //the base classname to use for the PopIt 
 </pre>
 
 				</div>
