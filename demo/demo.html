@@ -19,8 +19,10 @@
 				<div class="example">
 					<h2>PopIt</h2>
 					PopIt is a dynamically generated, draggable, resizable popup window that has many custom options. 
-					
+					<br>
 					It was built using prototype and web programming standards in mind so that there is cleaner code and easily managable.
+					<br><br>
+					You can download the script from the git repository here: <a href="http://github.com/mharris/Popit/tree/master">http://github.com/mharris/Popit/tree/master</a>
 				</div>			
 				<div class="example">
 					<a href="" id="simplePopIt">simple PopIt</a>
@@ -127,6 +129,32 @@ this.className = ""; //the base classname to use for the PopIt
 	
 	Duis at mi nec augue mollis volutpat ac vel elit. Cras tempor, lacus in vestibulum venenatis, eros lorem laoreet enim, ac varius arcu erat sit amet lectus. Proin volutpat congue tincidunt. Nulla eget luctus augue. Maecenas eu cursus augue. Nam laoreet enim congue sem dapibus consequat. Suspendisse vitae sapien quis risus scelerisque lacinia in nec quam. Curabitur sollicitudin consectetur nibh quis lobortis. Ut at condimentum mi. Aliquam euismod aliquet arcu, non volutpat justo eleifend at. Donec tempus ornare risus, nec mattis libero varius a. Mauris tempor est non dolor lobortis nec hendrerit libero convallis. Aenean ligula felis, facilisis in fringilla et, adipiscing quis dui. Nulla fermentum, nunc ullamcorper vulputate venenatis, metus nibh ultrices sapien, sit amet molestie enim risus et massa. Proin dapibus, lacus sit amet molestie consectetur, urna nulla imperdiet nulla, sit amet pharetra nunc massa a enim. Aenean at dui sit amet odio vestibulum rhoncus. Maecenas pulvinar laoreet dolor, et congue sem euismod in. Aenean lorem odio, bibendum at rhoncus vel, tempus quis dolor. Proin quis nisl id ante laoreet cursus non at odio. 
 			</div>
+			
+				<div class="example">
+					<a href="" id="callbackPopit">simple PopIt</a>
+						<div>
+							this is a simple popit with beforeClose and afterClose alerts
+						</div>
+<pre>new PopIt('simple PopIt', 
+{
+	beforeShow: function()
+	{
+		alert('beforeShow');
+	},
+	afterShow: function()
+	{
+		alert('afterShow');
+	},
+	beforeClose: function()
+	{ 
+		alert('beforeClose');
+	}, 
+	afterClose: function()
+	{
+		alert('afterClose');
+	}
+});</pre>
+				</div>
 		</div>
 	</body>
 </html>

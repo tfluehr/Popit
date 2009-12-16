@@ -35,7 +35,30 @@ document.observe("dom:loaded", function()
 		var popIt = new PopIt('simple PopIt');
 	});
 	
-	
+	$('callbackPopit').observe('click', function(event)
+	{
+		event.stop();
+		new PopIt('simple PopIt', 
+		{
+			beforeShow: function()
+			{
+				alert('beforeShow');
+			},
+			afterShow: function()
+			{
+				alert('afterShow');
+			},
+			beforeClose: function()
+			{ 
+				alert('beforeClose');
+			}, 
+			afterClose: function()
+			{
+				alert('afterClose');
+			}
+		});
+	});
+		
 	$('loremIpsumLink').observe("click", function(event)
 	{
 		event.stop();

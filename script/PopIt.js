@@ -46,26 +46,33 @@ PopIt.prototype = {
 			throw (new Error('PopIt: requires Script.aculo.us, specifically DragDrop'));
 		}
 		
-		this.content = content;
-		this.title = '&nbsp;'; //the window title
-		this.parent = $(document.body); //what element to insert the PopIt into
-		this.scrollElement = document.documentElement && document.documentElement.scrollTop ? document.documentElement : document.body;
-		this.height = 150; //the height of the PopIt
-		this.width = 200; // the width of the PopIt
-		this.shimOpacity = 0.9; // the opacity to use for the various cover divs
-		this.isModal = false; // if he window is a modal dialog or not
-		this.isDraggable  = true; // if dragging is enabled
-		this.isResizable = true; // if resizing is enabled
-		this.isMinimizable = true; // if minimize functions are enabled
-		this.isMaximizable = true; // if maximize functions are enabled
-		this.isClosable = true; // if closing functions are enabled
-		this.escapeClosesPopIt = true; // if pressing the escape key closes all PopIts
-		this.isUrl = false; // if content type is a url and an iframe should be used
-		this.offsetTop = 20; //the amount of px to add to the top of the PopIt
-		this.effectDuration = 0.5; //the duration of the various effects that happen with the PopIt
-		this.className = ""; //the base classname to use for the PopIt 
-
+		var defaultParams = 
+		{
+			content: content,
+			title: '&nbsp;', //the window title
+			parent: $(document.body), //what element to insert the PopIt into
+			scrollElement: document.documentElement && document.documentElement.scrollTop ? document.documentElement : document.body,
+			height: 150, //the height of the PopIt
+			width: 200, // the width of the PopIt
+			shimOpacity: 0.9, // the opacity to use for the various cover divs
+			isModal: false, // if he window is a modal dialog or not
+			isDraggable: true, // if dragging is enabled
+			isResizable: true, // if resizing is enabled
+			isMinimizable: true, // if minimize functions are enabled
+			isMaximizable: true, // if maximize functions are enabled
+			isClosable: true, // if closing functions are enabled
+			escapeClosesPopIt: true, // if pressing the escape key closes all PopIts
+			isUrl: false, // if content type is a url and an iframe should be used
+			offsetTop: 20, //the amount of px to add to the top of the PopIt
+			effectDuration: 0.5, //the duration of the various effects that happen with the PopIt
+			className: "", //the base classname to use for the PopIt 
+			beforeClose: false,
+			afterClose: false,
+			beforeShow: false,
+			afterShow: false
+		}
 		
+		Object.extend(this, defaultParams);
 		Object.extend(this, params);
 		
 		//TODO browser compatibility
@@ -378,6 +385,10 @@ PopIt.prototype = {
     
     generatePopIt: function()
     {
+		if (this.beforeShow)
+		{
+			this.beforeShow();
+		}
 		this.popIt = new Element('div',
 		{
 			className: "popIt " + this.className
@@ -417,7 +428,14 @@ PopIt.prototype = {
 		this.generateResizeElements();	
 		new Effect.Appear(this.popIt, 
 		{
-			duration: this.effectDuration
+			duration: this.effectDuration,
+			afterFinish: function()
+			{
+				if (this.afterShow)
+				{
+					this.afterShow();
+				}
+			}.bind(this)
 		});
 		
 		
@@ -472,15 +490,19 @@ PopIt.prototype = {
 		{
 			className: 'leftResize'
 		});
-		
-		this.rightResizeDiv.setStyle(
+		if (Prototype.Browser.IE) 
 		{
-			height: this.popIt.getHeight() + 'px'
-		});
-		this.leftResizeDiv.setStyle(
-		{
-			height: this.popIt.getHeight() + 'px'
-		});
+			//this code causes a blink in firefox and isnt needed 
+			//but ie wont size the resize elements correctly without it
+			this.rightResizeDiv.setStyle(
+			{
+				height: this.popIt.getHeight() + 'px'
+			});
+			this.leftResizeDiv.setStyle(
+			{
+				height: this.popIt.getHeight() + 'px'
+			});
+		}
 		
 		this.popIt.insert(this.leftResizeDiv);
 	},
@@ -727,6 +749,10 @@ PopIt.prototype = {
 		{
 			event.stop();
 		}
+		if (this.beforeClose) 
+		{
+			this.beforeClose();
+		}
 		if (this.modalShim) 
 		{
 			new Effect.Fade(this.modalShim,
@@ -743,6 +769,10 @@ PopIt.prototype = {
 			duration: this.effectDuration, 
 			afterFinish: function()
 			{
+				if (this.afterClose) 
+				{
+					this.afterClose();
+				}
 				this.destroy();
 			}.bind(this)
 			
