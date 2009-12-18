@@ -1,0 +1,38 @@
+.popIt.chromePopIt
+{
+	border-color: #585858;
+}
+
+.popIt.chromePopIt .TitleBar
+{
+	background-color: white;
+	border-bottom: solid 1px #33639E;
+	background-image: url('../images/chrome/barbg.gif');
+	background-repeat: x-repeat;
+}
+
+.popIt.chromePopIt .Content
+{
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.popIt.chromePopIt .minimizeButton, .popIt.chromePopIt .maximizeButton, .popIt.chromePopIt .restoreButton, .popIt.chromePopIt .closeButton
+{
+	width: 26px;
+	margin: 0px;
+}
+.popIt.chromePopIt .closeButton
+{
+	width: 44px;
+	margin-right: 3px;
+}
+
+.popIt.chromePopIt .minimizeButton {background-image: url('../images/chrome/minimize.png');}
+.popIt.chromePopIt .minimizeButton:hover {background-image: url('../images/chrome/minimize1.png');}
+.popIt.chromePopIt .maximizeButton {background-image: url('../images/chrome/maximize.png');}
+.popIt.chromePopIt .maximizeButton:hover {background-image: url('../images/chrome/maximize1.png');}
+.popIt.chromePopIt .restoreButton {background-image: url('../images/chrome/restore.png');}
+.popIt.chromePopIt .restoreButton:hover {background-image: url('../images/chrome/restore1.png');}
+.popIt.chromePopIt .closeButton {background-image: url('../images/chrome/close.png');}
+.popIt.chromePopIt .closeButton:hover {background-image: url('../images/chrome/close1.png');}

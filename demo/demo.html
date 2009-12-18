@@ -4,6 +4,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 		<link rel="stylesheet" type="text/css" href="../css/PopIt.css" />
 		<link rel="stylesheet" type="text/css" href="../css/BluePopIt.css" />
+		<link rel="stylesheet" type="text/css" href="../css/ChromePopIt.css" />
 		<link rel="stylesheet" type="text/css" href="demo.css" />
 		<title>Demo</title>
 
@@ -23,7 +24,7 @@
 					It was built using prototype and web programming standards in mind so that there is cleaner code and easily managable.
 					<br><br>
 					You can download the script from the git repository here: <a href="http://github.com/mharris/Popit/tree/master">http://github.com/mharris/Popit/tree/master</a>
-				</div>			
+				</div>
 				<div class="example">
 					<a href="" id="simplePopIt">simple PopIt</a>
 						<div>
@@ -34,6 +35,14 @@
 							and is automatically centered on the screen
 						</div>
 					<pre>new PopIt('simple PopIt');</pre>
+				</div>
+				<div class="example">
+					<select id="themeSelect">
+						<option selected="selected" value="chromePopIt">Chrome</option>
+						<option value="">Orange</option>
+						<option value="bluePopIt">Blue</option>
+					</select>
+					Select a theme for all of the windows below
 				</div>
 				<div class="example">
 					<a href="#" id="loremIpsumLink">Open Larger Window</a>
@@ -47,8 +56,7 @@
 {
 	title: 'Lorem ipsum',
 	height: 400,
-	width: 600,
-	className: 'bluePopIt'
+	width: 600
 });
 PopIt.updateStatusText("lorem ipsum");</pre>
 				</div>

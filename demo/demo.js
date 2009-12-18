@@ -55,7 +55,8 @@ document.observe("dom:loaded", function()
 			afterClose: function()
 			{
 				alert('afterClose');
-			}
+			},
+			className: $('themeSelect').value
 		});
 	});
 		
@@ -67,7 +68,7 @@ document.observe("dom:loaded", function()
 			title: 'Lorem ipsum',
 			height: 400,
 			width: 600, 
-			className: 'bluePopIt'
+			className: $('themeSelect').value
 		});
 		
 		popIt.updateStatusText("lorem ipsum");
@@ -83,7 +84,8 @@ document.observe("dom:loaded", function()
 			width: 300,
 			isModal: true,
 			isDraggable: false,
-			isResizable: false
+			isResizable: false,
+			className: $('themeSelect').value
 		});
 		
 		popIt.updateStatusText("lorem ipsum");
@@ -105,7 +107,8 @@ document.observe("dom:loaded", function()
 		{
 			isUrl: true,
 			width: 800,
-			height: 400
+			height: 400, 			
+			className: $('themeSelect').value
 		});
 		
 	}
