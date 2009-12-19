@@ -139,7 +139,7 @@ this.className = ""; //the base classname to use for the PopIt
 			</div>
 			
 				<div class="example">
-					<a href="" id="callbackPopit">simple PopIt</a>
+					<a href="" id="callbackPopit">Alert PopIt</a>
 						<div>
 							this is a simple popit with beforeClose and afterClose alerts
 						</div>
@@ -162,6 +162,40 @@ this.className = ""; //the base classname to use for the PopIt
 		alert('afterClose');
 	}
 });</pre>
+				</div>
+				
+				<div class="example">
+					<a href="" id="additionalClosePopIt">Additional Close PopIt</a>
+						<div>
+							this is a popit with additional close buttons inside the popit
+						</div>
+<pre>var popIt = new PopIt();
+//the content can come from anywhere i am just hard coding it for additional demonstration.
+var closeButton = new Element('input', 
+{
+	type: 'button',
+	value: 'close'
+});
+popIt.contentDiv.insert(closeButton);
+
+closeButton.observe('click', function(id, event)
+{
+	event.stop();
+	popIts.activePopIts[id].close();//active popits is an object with all the open popits by id
+	
+	//if you dont have access to the id you can locate it on the popit window.
+	//event.element.up('.popIt').id would get it for you.
+	
+}.curry(popIt.id));
+
+var closeAllButton = new Element('input', 
+{
+	type: 'button',
+	value: 'close all'
+});
+
+popIt.contentDiv.insert(closeAllButton);
+closeAllButton.observe('click', popIts.closeAll);</pre>
 				</div>
 		</div>
 	</body>

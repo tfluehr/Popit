@@ -26,6 +26,18 @@
 //please drop me an email at michael@harrisdev.net
 //I would like to see where this ends up :)
 
+var popIts =
+{
+	activePopIts: {},
+	closeAll: function()
+	{
+		Object.keys(popIts.activePopIts).each(function(key)
+		{
+			popIts.activePopIts[key].close();
+		});
+	}
+};
+
 var PopIt = Class.create();
 PopIt.version = 0.2;
 
@@ -77,7 +89,6 @@ PopIt.prototype = {
 		
 		//TODO browser compatibility
 		//todo more css
-		
 		this.generatePopIt();
 		
 		this.centerHandler = this.center.bindAsEventListener(this);
@@ -398,6 +409,10 @@ PopIt.prototype = {
 				width: this.width + 'px',
 				height: this.height + 'px'
 			});
+			
+		this.id = this.popIt.identify();
+		popIts.activePopIts[this.id] = this;
+		
 		this.generateTitleBar()
 		this.generateContentDiv();
 		this.generateStatusBarDiv();			
@@ -841,6 +856,7 @@ PopIt.prototype = {
 		{
 			this.shim.remove();
 		}	
+		delete popIts.activePopIts[this.id];
 	}
 	
 };

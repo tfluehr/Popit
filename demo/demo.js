@@ -91,6 +91,38 @@ document.observe("dom:loaded", function()
 		popIt.updateStatusText("lorem ipsum");
 	});
 	
+	$('additionalClosePopIt').observe('click', function(event)
+	{
+		event.stop();
+		var popIt = new PopIt();
+		//the content can come from anywhere i am just hard coding it for additional demonstration.
+		var closeButton = new Element('input', 
+		{
+			type: 'button',
+			value: 'close'
+		});
+		popIt.contentDiv.insert(closeButton);
+		
+		closeButton.observe('click', function(id, event)
+		{
+			event.stop();
+			popIts.activePopIts[id].close();//active popits is an object with all the open popits by id
+			
+			//if you dont have access to the id you can locate it on the popit window.
+			//event.element.up('.popIt').id would get it for you.
+			
+		}.curry(popIt.id));
+		
+		var closeAllButton = new Element('input', 
+		{
+			type: 'button',
+			value: 'close all'
+		});
+		
+		popIt.contentDiv.insert(closeAllButton);
+		closeAllButton.observe('click', popIts.closeAll);
+	});
+	
 	$('customLink').observe("click", customLinkClick);
 	$('customLinkForm').observe('submit', customLinkClick);
 		

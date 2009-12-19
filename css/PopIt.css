@@ -178,6 +178,7 @@ I would like to see where this ends up :)
 	display: block;
 	float: left;
 	margin: 2px 0 0 2px;
+	cursor: pointer;
 }
 
 .popIt .minimizeButton
