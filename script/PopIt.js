@@ -39,7 +39,7 @@ var popIts =
 };
 
 var PopIt = Class.create();
-PopIt.version = 0.2;
+PopIt.version = 0.3;
 
 PopIt.prototype = {
     initialize: function(content, params)
