@@ -94,24 +94,28 @@ document.observe("dom:loaded", function()
 	$('additionalClosePopIt').observe('click', function(event)
 	{
 		event.stop();
-		var popIt = new PopIt();
+		var popIt = new PopIt('', 
+		{
+			id: 'myPopit'
+		});
 		//the content can come from anywhere i am just hard coding it for additional demonstration.
 		var closeButton = new Element('input', 
 		{
 			type: 'button',
 			value: 'close'
 		});
+		popIt.contentDiv.update();
 		popIt.contentDiv.insert(closeButton);
 		
-		closeButton.observe('click', function(id, event)
+		closeButton.observe('click', function(event)
 		{
 			event.stop();
-			popIts.activePopIts[id].close();//active popits is an object with all the open popits by id
+			popIts.activePopIts['myPopit'].close();//active popits is an object with all the open popits by id
 			
 			//if you dont have access to the id you can locate it on the popit window.
 			//event.element.up('.popIt').id would get it for you.
 			
-		}.curry(popIt.id));
+		});
 		
 		var closeAllButton = new Element('input', 
 		{

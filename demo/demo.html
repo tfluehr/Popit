@@ -167,35 +167,21 @@ this.className = ""; //the base classname to use for the PopIt
 				<div class="example">
 					<a href="" id="additionalClosePopIt">Additional Close PopIt</a>
 						<div>
-							this is a popit with additional close buttons inside the popit
+							this is a popit with additional close buttons inside the popit.  It is important to note that when using the id field you cannot have another element on the page with the same id.
 						</div>
-<pre>var popIt = new PopIt();
-//the content can come from anywhere i am just hard coding it for additional demonstration.
-var closeButton = new Element('input', 
+<pre>var popIt = new PopIt('', 
 {
-	type: 'button',
-	value: 'close'
+	id: 'myPopit'
 });
-popIt.contentDiv.insert(closeButton);
+</pre>
+to close the popit you simply need to: 
+<pre>
+	popIts.activePopIts['myPopit'].close();
+</pre>
+to close all popits you simply need to:
+<pre>
+	popIts.closeAll();</pre>
 
-closeButton.observe('click', function(id, event)
-{
-	event.stop();
-	popIts.activePopIts[id].close();//active popits is an object with all the open popits by id
-	
-	//if you dont have access to the id you can locate it on the popit window.
-	//event.element.up('.popIt').id would get it for you.
-	
-}.curry(popIt.id));
-
-var closeAllButton = new Element('input', 
-{
-	type: 'button',
-	value: 'close all'
-});
-
-popIt.contentDiv.insert(closeAllButton);
-closeAllButton.observe('click', popIts.closeAll);</pre>
 				</div>
 		</div>
 	</body>

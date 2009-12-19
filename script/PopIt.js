@@ -60,6 +60,7 @@ PopIt.prototype = {
 		
 		var defaultParams = 
 		{
+			id: false,
 			content: content,
 			title: '&nbsp;', //the window title
 			parent: $(document.body), //what element to insert the PopIt into
@@ -86,6 +87,12 @@ PopIt.prototype = {
 		
 		Object.extend(this, defaultParams);
 		Object.extend(this, params);
+		
+		if (this.id && $(this.id))
+		{
+			Object.extend(this, popIts.activePopIts[this.id]);
+			return;
+		}
 		
 		//TODO browser compatibility
 		//todo more css
@@ -409,8 +416,14 @@ PopIt.prototype = {
 				width: this.width + 'px',
 				height: this.height + 'px'
 			});
-			
-		this.id = this.popIt.identify();
+		if (this.id) 
+		{
+			this.popIt.id = this.id;
+		}
+		else
+		{
+			this.id = this.popIt.identify();
+		}
 		popIts.activePopIts[this.id] = this;
 		
 		this.generateTitleBar()
