@@ -179,24 +179,26 @@ I would like to see where this ends up :)
 	float: left;
 	margin: 2px 0 0 2px;
 	cursor: pointer;
+	background-image: url('../images/buttons.png');
 }
 
 .popIt .minimizeButton
 {
-	background-image: url('../images/minimize.png');
+
+	background-position: -10px -10px;
 }
 
 .popIt .maximizeButton
 {
-	background-image: url('../images/maximize.png');
+	background-position: -10px -48px;
 }
 
 .popIt .restoreButton
 {
-	background-image: url('../images/restore.png');	
+	background-position: -10px -86px;
 }
 
 .popIt .closeButton
 {
-	background-image: url('../images/close.png');
+	background-position: -10px -124px;
 }

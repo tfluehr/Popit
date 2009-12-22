@@ -34,22 +34,26 @@ I would like to see where this ends up :)
 	background-color: #0054E3;
 }
 
+.popIt.bluePopIt .minimizeButton, .popIt.bluePopIt .maximizeButton, .popIt.bluePopIt .restoreButton, .popIt.bluePopIt .closeButton
+{
+	background-image: url('../images/BluePopIt/buttons.png');
+}
 .popIt.bluePopIt .minimizeButton
 {
-	background-image: url('../images/BluePopIt/minimize.png');
+	background-position: -10px -10px;
 }
 
 .popIt.bluePopIt .maximizeButton
 {
-	background-image: url('../images/BluePopIt/maximize.png');
+	background-position: -10px -48px;
 }
 
 .popIt.bluePopIt .restoreButton
 {
-	background-image: url('../images/BluePopIt/restore.png');	
+	background-position: -10px -86px;
 }
 
 .popIt.bluePopIt .closeButton
 {
-	background-image: url('../images/BluePopIt/close.png');
+	background-position: -10px -124px;
 }

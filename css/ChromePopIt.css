@@ -39,7 +39,7 @@ I would like to see where this ends up :)
 	background-color: white;
 	border-bottom: solid 1px #33639E;
 	background-image: url('../images/chrome/barbg.gif');
-	background-repeat: x-repeat;
+	background-repeat: repeat-x;
 }
 
 .popIt.chromePopIt .Content
@@ -50,6 +50,7 @@ I would like to see where this ends up :)
 
 .popIt.chromePopIt .minimizeButton, .popIt.chromePopIt .maximizeButton, .popIt.chromePopIt .restoreButton, .popIt.chromePopIt .closeButton
 {
+	background-image: url('../images/chrome/buttons.png');	
 	width: 26px;
 	margin: 0px;
 }
@@ -59,11 +60,35 @@ I would like to see where this ends up :)
 	margin-right: 3px;
 }
 
-.popIt.chromePopIt .minimizeButton {background-image: url('../images/chrome/minimize.png');}
-.popIt.chromePopIt .minimizeButton:hover {background-image: url('../images/chrome/minimize1.png');}
-.popIt.chromePopIt .maximizeButton {background-image: url('../images/chrome/maximize.png');}
-.popIt.chromePopIt .maximizeButton:hover {background-image: url('../images/chrome/maximize1.png');}
-.popIt.chromePopIt .restoreButton {background-image: url('../images/chrome/restore.png');}
-.popIt.chromePopIt .restoreButton:hover {background-image: url('../images/chrome/restore1.png');}
-.popIt.chromePopIt .closeButton {background-image: url('../images/chrome/close.png');}
-.popIt.chromePopIt .closeButton:hover {background-image: url('../images/chrome/close1.png');}
+.popIt.chromePopIt .minimizeButton 
+{
+	background-position: -10px -10px;
+}
+.popIt.chromePopIt .minimizeButton:hover 
+{
+	background-position: -10px -162px;
+}
+.popIt.chromePopIt .maximizeButton 
+{
+	background-position: -10px -48px;
+}
+.popIt.chromePopIt .maximizeButton:hover 
+{
+	background-position: -10px -200px;
+}
+.popIt.chromePopIt .restoreButton 
+{
+	background-position: -10px -86px;
+}
+.popIt.chromePopIt .restoreButton:hover 
+{
+	background-position: -10px -238px;
+}
+.popIt.chromePopIt .closeButton 
+{
+	background-position: -10px -124px;
+}
+.popIt.chromePopIt .closeButton:hover 
+{
+	background-position: -10px -276px;
+}
