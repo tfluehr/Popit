@@ -142,7 +142,7 @@ document.observe("dom:loaded", function()
 		var popIt = new PopIt(url, 
 		{
 			isUrl: true,
-			width: 800,
+			width: 990,
 			height: 400, 			
 			className: $('themeSelect').value
 		});
