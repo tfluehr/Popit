@@ -93,7 +93,6 @@ hr
 {
 	background-color: #003366;
 	border: outset 2px #003366;
-	padding: 5px;
 	-moz-border-radius: 5px;
 	text-align: center;
 
@@ -104,6 +103,8 @@ hr
 {
 	color: #FFFFFF;
 	text-decoration: none;
+	display: block;
+	padding: 5px;
 }
 
 .roundButton:hover, .selectedButton
