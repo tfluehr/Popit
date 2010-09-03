@@ -39,7 +39,7 @@ var popIts =
 };
 
 var PopIt = Class.create();
-PopIt.version = 0.3;
+PopIt.version = 0.4;
 
 PopIt.prototype = {
     initialize: function(content, params)
@@ -557,7 +557,7 @@ PopIt.prototype = {
 			this.minimizeButton = new Element('div', 
 			{
 				className: 'minimizeButton'
-			}).observe('click', this.minimize.bindAsEventListener(this));
+			}).observe('mousedown', this.minimize.bindAsEventListener(this));
 			controlsDiv.insert(this.minimizeButton);
 		}
 		
@@ -566,7 +566,7 @@ PopIt.prototype = {
 			this.maximizeButton = new Element('div', 
 			{
 				className: 'maximizeButton'
-			}).observe('click', this.maximize.bindAsEventListener(this));
+			}).observe('mousedown', this.maximize.bindAsEventListener(this));
 			controlsDiv.insert(this.maximizeButton);
 		}
 		
@@ -575,7 +575,7 @@ PopIt.prototype = {
 			this.closeButton = new Element('div', 
 			{
 				className: 'closeButton'
-			}).observe('click', this.close.bindAsEventListener(this));
+			}).observe('mousedown', this.close.bindAsEventListener(this));
 			controlsDiv.insert(this.closeButton);
 		}
 		
@@ -773,7 +773,7 @@ PopIt.prototype = {
 	
 	close: function(event)
 	{
-		if (event) 
+	    if (event) 
 		{
 			event.stop();
 		}

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/reset-min.css" />
 		<link rel="stylesheet" type="text/css" href="../css/PopIt.css" />
 		<link rel="stylesheet" type="text/css" href="../css/BluePopIt.css" />
 		<link rel="stylesheet" type="text/css" href="../css/ChromePopIt.css" />
@@ -16,18 +16,17 @@
 		
 	</head>
 	<body>
-		<div class="topSection">
-			<h1 class="logo">HarrisDev.net</h1>
+	  <div class='main'>
+		<div class="content topContent">
+			<h1 class="logo"><a href="http://harrisdev.net/home">Harrisdev.net</a></h1>
 			<ul id="nav" class="nav">
-				<li class="roundButton"><a href="http://harrisdev.net/index.php" type="home">Home</a></li>
-				<li class="roundButton"><a href="http://harrisdev.net/resume.php" type="resume">Resume</a></li>
-				<li class="roundButton selectedButton"><a href="http://harrisdev.net/projects.php" type="projects">Projects</a></li>
-				<li class="roundButton"><a href="http://harrisdev.net/contact.php" type="contact">Contact</a></li>
+				<li class="roundButton"><a href="http://harrisdev.net/resume" type="resume">Resume</a></li>
+				<li class="roundButton selectedButton"><a href="http://harrisdev.net/projects" type="projects">Projects</a></li>
+				<li class="roundButton"><a href="http://harrisdev.net/contact" type="contact">Contact</a></li>
 			</ul>
-			<hr />
 		</div>
 
-		<div id="containerDiv" class="container">
+		<div id="containerDiv" class="content">
 			<form id="customLinkForm">
 				<div class="example">
 					<h2>PopIt</h2>
@@ -187,14 +186,12 @@ this.className = ""; //the base classname to use for the PopIt
 });
 </pre>
 to close the popit you simply need to: 
-<pre>
-	popIts.activePopIts['myPopit'].close();
-</pre>
+<pre>popIts.activePopIts['myPopit'].close();</pre>
 to close all popits you simply need to:
-<pre>
-	popIts.closeAll();</pre>
+<pre>popIts.closeAll();</pre>
 
 				</div>
+		</div>
 		</div>
 	</body>
 </html>

@@ -29,118 +29,220 @@ I would like to see where this ends up :)
 
 */
 
-
 html, body
 {
-	height: 100%;
-	font-family: Arial,Helvetica,sans-serif;
-	font-size: 10pt;
-	background-color: #5b7290;
+  height: 100%;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 10pt;
+  background-color: #5B7290;
 }
 
 body
 {
-	width: 950px;
-	margin: auto;
-	padding-left: 20px;
-	padding-right: 20px;
-	background-color: #e7ebf0;
-	height: auto;
-	min-height: 100%;
-	overflow-y: scroll;
+  overflow-y: scroll;
+  color: #000000;
+  background-position: top center;
+  height: auto;
+  min-height: 100%;
+  background-attachment: fixed;
+  background-image: url('gradient_1x1000_003366_FFFFFF_003366.png');
+}
+h1
+{
+    font-size: 175%;
 }
 h2
 {
-	font-size: 140%;
-	margin-top: 1ex;
-	margin-bottom: 1ex;
+    font-size: 150%;
+}
+h3
+{
+    font-size: 125%;
 }
 p
 {
-	margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 hr
 {
-	clear: both;
+  clear: both;
 }
 
-.topSection
+label
 {
-	padding-top: 1em;
+    display: block;
+    font-weight: bold
 }
 
-.logo
+input[type='checkbox']
 {
-	float: left;
-	font-size: 150%;
+  margin: 1ex;
+  margin: 1ex;
 }
 
-.nav
+input[type='text'], input[type='password'], textarea
 {
-	margin-bottom: 1em;
-	overflow: auto;
-	float: right;
+    width: 100%;
+    margin-bottom: 1ex;
 }
 
-.nav li
+a:link, a:active, a:hover, a:visited 
 {
-	float: left;
-	margin-right: 2px;
-}
-
-.roundButton
-{
-	background-color: #003366;
-	border: outset 2px #003366;
-	-moz-border-radius: 5px;
-	text-align: center;
-
-
-}
-
-.roundButton a
-{
-	color: #FFFFFF;
-	text-decoration: none;
-	display: block;
-	padding: 5px;
-}
-
-.roundButton:hover, .selectedButton
-{
-	background-color: #b1bdcd;
-	border: inset 2px #c0c0c0;
-
+  outline: none;
 }
 
 .main
 {
-	text-align: justify;
-	overflow: auto;
-	clear: both;
+  width: 950px;
+  margin: auto;
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.bulletedList
+.content
 {
-	margin-left: 3em;
-	margin-bottom: 1em;
+  padding-top: 1em;
+  margin-top:10px;
+  margin-bottom: 10px;
+  background-color: #E7EBF0;
+  color: #000000;
+  overflow:auto;
+  
+  padding: 20px;
+      
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  
+  -moz-box-shadow: 2px 2px 2px 2px;
+  -webkit-box-shadow: 2px 2px 2px 2px;
+  overflow: visible;
+  
+  background-image: url('gradient_1x500_E7EBF0_FFFFFF_E7EBF0.png');
 }
 
-.bulletedList li
+.topContent
 {
-	list-style-type: disc;
-	list-style-position: inside;
-	
+    padding: 15px;
+    margin-top: 0;
+    overflow:auto;
 }
 
-a:link, a:active, a:hover, a:visited {
-	outline: none;
-}
-
-.example 
+.logo
 {
-	clear: both;
-	overflow: auto;
-	padding-bottom: 2em;
+  float: left;
+}
+
+.logo img
+{
+    height: 40px;
+}
+.logo a
+{
+    color: black;
+    text-decoration: none;  
+}
+
+.nav
+{
+  overflow: auto;
+  float: right;
+  clear: right;
+}
+
+.nav li
+{
+  float: left;
+}
+input[type='submit']
+{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.roundButton, input[type='submit']
+{
+  background-color: #003366;
+  border: outset 2px #003366;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  text-align: center;
+  background-image: url("gradient_1x30_003366_FFFFFF.png");
+  color: #FFFFFF;
+  margin-right: 2px;
+}
+
+.roundButton a
+{
+  color: #FFFFFF;
+  text-decoration: none;
+  padding-left: 5px;
+  padding-right: 5px;
+  display: block;
+}
+
+.roundButton:hover, .selectedButton, input[type='submit']:hover
+{
+  background-color: #B1BDCD;
+  border: inset 2px #C0C0C0;
+  background-image: url("gradient_1x30_B1BDCD_003366.png");
+  color: #FFFFFF;
+}
+
+.roundButton:hover a, .selectedButton a
+{
+    color: #FFFFFF;
+}
+
+.center
+{
+  text-align: center;
+}
+
+.errors
+{
+    color: red;
+}
+
+.smallWidthContent
+{
+  width: 50%;
+  margin: auto;
+}
+
+.termsOfService
+{
+    height: 200px;  
+}
+
+.separator
+{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+input.navInput
+{
+    width: 90px;
+    margin-left: 1ex;
+    margin-right: 1ex;
+}
+
+.example
+{
+    margin-bottom: 1em;
+}
+
+.example pre
+{
+    margin-left: 4em;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+input[type='text'] 
+{
+    width: 200px;
+    vertical-align: bottom;
 }
