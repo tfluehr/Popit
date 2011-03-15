@@ -1,0 +1,40 @@
+.popIt.Vocus{
+  -webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+}
+
+.popIt.Vocus .TitleBar {
+  background-color: #003399;
+  padding-top: 3px;
+  height: 18px;
+  -webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+}
+
+.popIt.Vocus .TitleBar .Controls {
+  margin-top:-3px;
+}
+
+.popIt.Vocus .minimizeButton, .popIt.Vocus .maximizeButton, .popIt.Vocus .restoreButton, .popIt.Vocus .closeButton {
+  background-image: none;
+  background-position: 2px 2px;
+  width: 22px;
+}
+
+.popIt.Vocus .minimizeButton {
+  display: none;
+}
+
+.popIt.Vocus .maximizeButton {
+  background-image: url(/VocusXRA50/VocusJS/Source/3rdParty/Popup/default/maximize.gif);
+}
+
+.popIt.Vocus .restoreButton {
+  background-image: url(/VocusXRA50/VocusJS/Source/3rdParty/Popup/default/minimize.gif);
+}
+
+.popIt.Vocus .closeButton {
+  background-image: url(/VocusXRA50/VocusJS/Source/3rdParty/Popup/default/close.gif);
+}
