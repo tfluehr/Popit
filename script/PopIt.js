@@ -56,8 +56,9 @@
   };
   checkRequirements();
   
-  popIts = { // global popIts var for managing 
+  popIts = { // global popIts var for managing open popIts
     activePopIts: {},
+    zIndex: 1000,
     closeAll: function(){
       Object.values(popIts.activePopIts).each(function(popIt){
         popIt.close();
@@ -108,6 +109,7 @@
         offsetTop: 20, //the amount of px to add to the top of the PopIt
         effectDuration: 0.5, //the duration of the various effects that happen with the PopIt
         className: "", //the base classname to use for the PopIt 
+        showStatusBar: false,
         beforeClose: false,
         afterClose: false,
         beforeShow: false,
@@ -223,7 +225,7 @@
         onEnd: (function(draggable, event){
           var x = event.pointerX();
           this.width = this.popIt.getWidth() + (x - this.origX);
-          var parentWidth = this.parent.getWidth() - 10;
+          var parentWidth = ($(document.body) == this.parent ? document.viewport.getWidth() : this.parent.getWidth()) - 10;
           if (x > parentWidth) {
             var sub = (parentWidth - x);
             x += sub;
@@ -260,7 +262,7 @@
           var y = event.pointerY() - this.scrollElement.scrollTop;
           this.height = this.popIt.getHeight() + (y - this.origY);
           
-          var parentHeight = this.parent.getHeight() - 10;
+          var parentHeight = ($(document.body) == this.parent ? document.viewport.getHeight() : this.parent.getHeight()) - 10;
           if (y > parentHeight) {
             var sub = parentHeight - y;
             y += sub;
@@ -368,7 +370,8 @@
       }).setStyle({
         top: (this.scrollElement.scrollTop + this.offsetTop) + 'px',
         width: this.width + 'px',
-        height: this.height + 'px'
+        height: this.height + 'px',
+        zIndex: popIts.zIndex++
       });
       if (this.id) {
         this.popIt.id = this.id;
@@ -416,7 +419,7 @@
     },
     
     center: function(){
-      var left = this.parent.getWidth() / 2;
+      var left = ($(document.body) == this.parent ? document.viewport.getWidth() : this.parent.getWidth()) / 2;
       left = left - (this.popIt.getWidth() / 2);
       left += 'px';
       
@@ -531,11 +534,13 @@
     },
     
     generateStatusBarDiv: function(){
-      this.statusBarDiv = new Element('div', {
-        className: 'Status'
-      });
-      
-      this.popIt.insert(this.statusBarDiv);
+      if (this.showStatusBar) {
+        this.statusBarDiv = new Element('div', {
+          className: 'Status'
+        });
+        
+        this.popIt.insert(this.statusBarDiv);
+      }
     },
     
     minimize: function(event){
@@ -577,7 +582,7 @@
         var height = this.height;
         
         if (this.isMaximized) {
-          height = (this.parent.getHeight() - 5);
+          height = (($(document.body) == this.parent ? document.viewport.getHeight() : this.parent.getHeight()) - 5);
         }
         new Effect.Morph(this.popIt, {
           style: {
@@ -587,7 +592,9 @@
           duration: this.effectDuration
         });
         this.contentDiv.show();
-        this.statusBarDiv.show();
+        if (this.showStatusBar) {
+          this.statusBarDiv.show();
+        }
         if (this.isResizable) {
           this.topResizeDiv.show();
           this.bottomResizeDiv.show();
@@ -628,8 +635,8 @@
           style: {
             left: '0px',
             top: this.scrollElement.scrollTop + 'px',
-            width: (this.parent.getWidth() - 3) + 'px',
-            height: (this.parent.getHeight() - this.padBottom - 3) + 'px'
+            width: (($(document.body) == this.parent ? document.viewport.getWidth() : this.parent.getWidth()) - 3) + 'px',
+            height: (($(document.body) == this.parent ? document.viewport.getHeight() : this.parent.getHeight()) - this.padBottom - 2) + 'px'
           },
           duration: this.effectDuration
         });
@@ -692,7 +699,9 @@
     },
     
     updateStatusText: function(text){
-      this.statusBarDiv.update(text);
+      if (this.showStatusBar) {
+        this.statusBarDiv.update(text);
+      }
     },
     
     destroy: function(){

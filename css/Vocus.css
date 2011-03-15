@@ -2,27 +2,32 @@
   -webkit-border-radius: 5px 5px 0 0;
 	-moz-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
+  padding-bottom: 26px;
 }
 
 .popIt.Vocus .TitleBar {
   background-color: #003399;
-  padding-top: 3px;
-  height: 18px;
+  background-image: url(/VocusXRA50/Images/Tabs/Gradient_003399_FFFFFF_H100.jpg);
+  padding-top: 5px;
+  height: 20px;
   -webkit-border-radius: 5px 5px 0 0;
 	-moz-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
 }
 
+
 .popIt.Vocus .TitleBar .Controls {
-  margin-top:-3px;
+  margin-top:-5px;
 }
 
 .popIt.Vocus .minimizeButton, .popIt.Vocus .maximizeButton, .popIt.Vocus .restoreButton, .popIt.Vocus .closeButton {
   background-image: none;
-  background-position: 2px 2px;
+  background-position: 2px 4px;
   width: 22px;
 }
-
+/*
+.popIt.Vocus .Status
+*/
 .popIt.Vocus .minimizeButton {
   display: none;
 }
