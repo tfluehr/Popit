@@ -59,6 +59,7 @@
   popIts = { // global popIts var for managing open popIts
     activePopIts: {},
     zIndex: 1000,
+    onlyOneVisible: false,
     closeAll: function(){
       Object.values(popIts.activePopIts).each(function(popIt){
         popIt.close();
@@ -365,6 +366,26 @@
       if (this.beforeShow) {
         this.beforeShow();
       }
+      if (popIts.onlyOneVisible){
+        this.lastPopIt = Object.values(popIts.activePopIts).find(function(otherPopIt){
+          return otherPopIt.visible;
+        });
+        if (this.lastPopIt) {
+          this.lastPopIt.visible = false;
+          var oldPop = this.lastPopIt.popIt;
+          this.lastPopIt.oldPosition = {
+            left: oldPop.getStyle('left'),
+            top: oldPop.getStyle('top')
+          };
+          new Effect.Morph(oldPop,{
+            style: { // move instead of hide to prevent any issues with internal resize events, etc.
+              left: '-10000px',
+              top: '-10000px'
+            },
+            duration: this.effectDuration
+          });
+        }
+      }
       this.popIt = new Element('div', {
         className: "popIt " + this.className
       }).setStyle({
@@ -373,6 +394,7 @@
         height: this.height + 'px',
         zIndex: popIts.zIndex++
       });
+      this.visible = true;
       if (this.id) {
         this.popIt.id = this.id;
       }
@@ -691,7 +713,14 @@
           if (this.afterClose) {
             this.afterClose();
           }
+          if (this.lastPopIt){
+            this.lastPopIt.popIt.setStyle(this.lastPopIt.oldPosition);
+            this.lastPopIt.center();
+            this.lastPopIt = null;
+          }
+ 
           this.destroy();
+          
         }).bind(this)
       
       });
