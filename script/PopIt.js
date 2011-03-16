@@ -111,10 +111,10 @@
         effectDuration: 0.5, //the duration of the various effects that happen with the PopIt
         className: "", //the base classname to use for the PopIt 
         showStatusBar: false,
-        beforeClose: false,
-        afterClose: false,
-        beforeShow: false,
-        afterShow: false
+        beforeClose: Prototype.emptyFunction,
+        afterClose: Prototype.emptyFunction,
+        beforeShow: Prototype.emptyFunction,
+        afterShow: Prototype.emptyFunction
       });
       
       Object.extend(this, params);
@@ -363,9 +363,8 @@
     },
     
     generatePopIt: function(){
-      if (this.beforeShow) {
-        this.beforeShow();
-      }
+      this.beforeShow();
+
       if (popIts.onlyOneVisible){
         this.lastPopIt = Object.values(popIts.activePopIts).find(function(otherPopIt){
           return otherPopIt.visible;
@@ -430,9 +429,7 @@
       new Effect.Appear(this.popIt, {
         duration: this.effectDuration,
         afterFinish: (function(){
-          if (this.afterShow) {
-            this.afterShow();
-          }
+          this.afterShow();
         }).bind(this)
       });
       
@@ -696,9 +693,9 @@
         }
         event.stop();
       }
-      if (this.beforeClose) {
-        this.beforeClose();
-      }
+
+      this.beforeClose();
+
       if (this.modalShim) {
         new Effect.Fade(this.modalShim, {
           duration: this.effectDuration
@@ -710,9 +707,8 @@
       new Effect.Fade(this.popIt, {
         duration: this.effectDuration,
         afterFinish: (function(){
-          if (this.afterClose) {
-            this.afterClose();
-          }
+          this.afterClose();
+
           if (this.lastPopIt){
             this.lastPopIt.popIt.setStyle(this.lastPopIt.oldPosition);
             this.lastPopIt.center();
