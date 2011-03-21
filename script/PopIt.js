@@ -71,11 +71,21 @@
       });
     },
     keyDown: function(ev){
-      Object.values(popIts.activePopIts).each(function(popIt){
-        if (popIt.escapeClosesPopIt){
+      if (this.onlyOneVisible) {
+        var popIt = Object.values(popIts.activePopIts).find(function(otherPopIt){
+          return otherPopIt.visible;
+        });
+        if (popIt && popIt.escapeClosesPopIt && popIt.isClosable) {
           popIt.keyDown(ev);
         }
-      });
+      }
+      else {
+        Object.values(popIts.activePopIts).each(function(popIt){
+          if (popIt.escapeClosesPopIt && popIt.isClosable) {
+            popIt.keyDown(ev);
+          }
+        });
+      }
     },
     keyDownCustom: function(ev){
       if (ev.memo && ev.memo.type === 'keydown'){
@@ -100,6 +110,7 @@
         width: 200, // the width of the PopIt
         shimOpacity: 0.9, // the opacity to use for the various cover divs
         isModal: false, // if he window is a modal dialog or not
+        closeOnModalClick: false, // close the modal dialog when clicking on the background
         isDraggable: true, // if dragging is enabled
         isResizable: true, // if resizing is enabled
         isMinimizable: true, // if minimize functions are enabled
@@ -413,6 +424,9 @@
           height: this.scrollElement.scrollHeight + 'px',
           opacity: this.shimOpacity
         });
+        if (this.closeOnModalClick && this.isClosable){
+          this.modalShim.observe('mousedown', this.close.bindAsEventListener(this));
+        }
         this.modalShim.hide();
         this.parent.insert(this.modalShim);
         new Effect.Appear(this.modalShim, {
@@ -688,7 +702,7 @@
     
     close: function(event){
       if (event) {
-        if (!event.isLeftClick()){
+        if (event.type == 'click' && !event.isLeftClick()){
           return;
         }
         event.stop();
@@ -697,6 +711,7 @@
       this.beforeClose();
 
       if (this.modalShim) {
+        this.modalShim.stopObserving();
         new Effect.Fade(this.modalShim, {
           duration: this.effectDuration
         });
@@ -758,7 +773,7 @@
       }
       
       if (this.modalShim && this.modalShim.parentNode) {
-        this.modalShim.remove();
+        this.modalShim.stopObserving().remove();
       }
       
       if (this.popIt && this.popIt.parentNode) {
