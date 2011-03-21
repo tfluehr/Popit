@@ -380,7 +380,6 @@
         this.modalShim = new Element('div', {
           className: 'ModalShim'
         }).setStyle({
-          height: this.scrollElement.scrollHeight + 'px',
           opacity: this.shimOpacity,
           zIndex: popIts.zIndex++
         });
@@ -650,7 +649,7 @@
     
     maximize: function(event){
       if (event) {
-        if (!event.isLeftClick()){
+        if (event.type == "mousedown" && !event.isLeftClick()){ // isLeftClick only works on IE when event is mouse down
           return;
         }
         event.stop();

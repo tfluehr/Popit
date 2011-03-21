@@ -31,13 +31,11 @@ I would like to see where this ends up :)
 
 .ModalShim
 {
-	position:absolute;
+	position:fixed;
 	left: 0;
 	top: 0;
-	bottom: 0;
 	width: 100%;
-	padding-top: 20px;
-	padding-bottom: 20px;
+  height: 100%;
 
 	background-color: #CCCCCC;
 }
