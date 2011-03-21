@@ -376,6 +376,25 @@
     generatePopIt: function(){
       this.beforeShow();
 
+      if (this.isModal) {
+        this.modalShim = new Element('div', {
+          className: 'ModalShim'
+        }).setStyle({
+          height: this.scrollElement.scrollHeight + 'px',
+          opacity: this.shimOpacity,
+          zIndex: popIts.zIndex++
+        });
+        if (this.closeOnModalClick && this.isClosable){
+          this.modalShim.observe('mousedown', this.close.bindAsEventListener(this));
+        }
+        this.modalShim.hide();
+        this.parent.insert(this.modalShim);
+        new Effect.Appear(this.modalShim, {
+          from: 0,
+          to: this.shimOpacity,
+          duration: this.effectDuration
+        });
+      }
       if (popIts.onlyOneVisible){
         this.lastPopIt = Object.values(popIts.activePopIts).find(function(otherPopIt){
           return otherPopIt.visible;
@@ -417,24 +436,6 @@
       this.generateContentDiv();
       this.generateStatusBarDiv();
       
-      if (this.isModal) {
-        this.modalShim = new Element('div', {
-          className: 'ModalShim'
-        }).setStyle({
-          height: this.scrollElement.scrollHeight + 'px',
-          opacity: this.shimOpacity
-        });
-        if (this.closeOnModalClick && this.isClosable){
-          this.modalShim.observe('mousedown', this.close.bindAsEventListener(this));
-        }
-        this.modalShim.hide();
-        this.parent.insert(this.modalShim);
-        new Effect.Appear(this.modalShim, {
-          from: 0,
-          to: this.shimOpacity,
-          duration: this.effectDuration
-        });
-      }
       this.popIt.hide();
       this.parent.insert(this.popIt);
       this.padBottom = parseInt(this.popIt.getStyle('padding-bottom'), 10);
