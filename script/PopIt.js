@@ -68,6 +68,7 @@
     resize: function(ev){
       Object.values(popIts.activePopIts).each(function(popIt){
         popIt.center(ev);
+        popIt.onPageResized();
       });
     },
     keyDown: function(ev){
@@ -125,7 +126,9 @@
         beforeClose: Prototype.emptyFunction,
         afterClose: Prototype.emptyFunction,
         beforeShow: Prototype.emptyFunction,
-        afterShow: Prototype.emptyFunction
+        afterShow: Prototype.emptyFunction,
+        onPageResized: Prototype.emptyFunction,
+        afterResize: Prototype.emptyFunction
       });
       
       Object.extend(this, params);
@@ -311,6 +314,7 @@
           
           this.origY = null;
           this.hideDragShim(draggable);
+          this.afterResize();
         }).bind(this)
       });
       
@@ -346,6 +350,7 @@
           
           this.origX = null;
           this.hideDragShim(draggable);
+          this.afterResize();
         }).bind(this)
       });
     },
@@ -593,7 +598,8 @@
           style: {
             height: '0px'
           },
-          duration: this.effectDuration
+          duration: this.effectDuration,
+          afterFinish: this.afterResize.bind(this)
         });
         if (this.isResizable) {
           this.topResizeDiv.hide();
@@ -622,7 +628,8 @@
             height: height + 'px',
             minHeight: ''
           },
-          duration: this.effectDuration
+          duration: this.effectDuration,
+          afterFinish: this.afterResize.bind(this)
         });
         this.contentDiv.show();
         if (this.showStatusBar) {
@@ -671,7 +678,8 @@
             width: (($(document.body) == this.parent ? document.viewport.getWidth() : this.parent.getWidth()) - 3) + 'px',
             height: (($(document.body) == this.parent ? document.viewport.getHeight() : this.parent.getHeight()) - this.padBottom - 2) + 'px'
           },
-          duration: this.effectDuration
+          duration: this.effectDuration,
+          afterFinish: this.afterResize.bind(this)
         });
         if (this.isResizable) {
           this.topResizeDiv.hide();
@@ -689,7 +697,8 @@
             left: this.left + 'px',
             top: this.top + 'px'
           },
-          duration: this.effectDuration
+          duration: this.effectDuration,
+          afterFinish: this.afterResize.bind(this)
         });
         if (this.isResizable) {
           this.topResizeDiv.show();
