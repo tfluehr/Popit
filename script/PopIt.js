@@ -61,9 +61,31 @@
     zIndex: 1000,
     onlyOneVisible: false,
     closeAll: function(){
-      Object.values(popIts.activePopIts).each(function(popIt){
-        popIt.close();
-      });
+      popIts.closeNext();
+    },
+    closeNext:function(lastEl){
+      var nextPopIt = typeof lastEl == 'undefined' ? Object.values(popIts.activePopIts).find(function(otherPopIt){
+        return otherPopIt.visible;
+      }) : lastEl;
+      if (!nextPopIt) {
+        if (Object.keys(popIts.activePopIts).length) {
+          nextPopIt = popIts.activePopIts[Object.keys(popIts.activePopIts).first()];
+        }
+      }
+      if (nextPopIt) {
+        var oldPopit = nextPopIt.popIt;
+        if (oldPopit){
+          oldPopit = popIts.activePopIts[oldPopit.identify()];
+          oldPopit.visible = true;
+        }
+        nextPopIt.effectDuration = 0.2;
+        nextPopIt.close(null, popIts.closeNext.curry(nextPopIt.lastPopIt));
+      }
+      else {
+        Object.values(popIts.activePopIts).each(function(popIt){
+          popIt.close();
+        });
+      }
     },
     resize: function(ev){
       Object.values(popIts.activePopIts).each(function(popIt){
@@ -99,7 +121,7 @@
   Event.observe(document, 'PopIt:keydown', popIts.keyDownCustom.bind(popIts));
 
   PopIt = Class.create({
-    version: 0.5,
+    version: 0.7,
     initialize: function(content, params){
       Object.extend(this, { // default params
         id: false,
@@ -114,6 +136,7 @@
         closeOnModalClick: false, // close the modal dialog when clicking on the background
         isDraggable: true, // if dragging is enabled
         isResizable: true, // if resizing is enabled
+        isAutoResized: false, // if the popit should auto resize to the dimensions of its content
         isMinimizable: true, // if minimize functions are enabled
         isMaximizable: true, // if maximize functions are enabled
         isClosable: true, // if closing functions are enabled
@@ -139,6 +162,8 @@
       }
       
       this.generatePopIt();
+      
+      this.autoResize();
     },
     
     keyDown: function(event){
@@ -448,7 +473,9 @@
       new Effect.Appear(this.popIt, {
         duration: this.effectDuration,
         afterFinish: (function(){
-          this.afterShow();
+          try {//incase the opener has redirected in ie
+            this.afterShow();
+          }catch(e){}
         }).bind(this)
       });
       
@@ -543,12 +570,19 @@
       }
       
       this.titleBarDiv.insert(controlsDiv);
+
+      this.titleEl = new Element('span');
       
-      this.titleBarDiv.insert(this.title);
+      this.updateTitle(this.title);
+      
+      this.titleBarDiv.insert(this.titleEl);
       
       this.popIt.insert(this.titleBarDiv);
     },
-    
+    updateTitle: function(title){
+      this.title = title;
+      this.titleEl.update(this.title);
+    },
     generateContentDiv: function(){
       if (this.isUrl) {
         this.content = new Element('iframe', {
@@ -653,7 +687,38 @@
       }
       
     },
-    
+    autoResize: function(){
+     
+     if (this.isUrl && this.isAutoResized){
+       if (this.content && this.content.contentWindow){
+          var contentBody = this.content.contentWindow.document.body;
+          if (contentBody) {
+            
+            var height = parseInt(contentBody.scrollHeight, 10);
+            var max = (($(document.body) == this.parent ? document.viewport.getHeight() : this.parent.getHeight()) - this.padBottom - 2);
+            max -= parseInt(this.popIt.getStyle('top'), 10);
+            max -= 10;// small padding just to keep it from bottom of screen
+            if (height > max){
+              height = max;
+            }
+            
+            if (height != this.origHeight) {
+             
+              this.origHeight = height;
+              
+              this.contentDiv.setStyle({
+                height: this.origHeight + 'px'
+              });
+              this.popIt.setStyle({
+                height: this.origHeight + 'px'
+              });
+              
+            }
+          }
+          this.autoResize.bind(this).delay(0.1); 
+        }  
+      }  
+    },
     maximize: function(event){
       if (event) {
         if (event.type == "mousedown" && !event.isLeftClick()){ // isLeftClick only works on IE when event is mouse down
@@ -663,6 +728,12 @@
         if (event.element().hasClassName('minimizeButton')) {
           return;
         }
+      }
+      if (this.isUrl){
+        this.content.setStyle({
+          height: this.content.getHeight()+'px',
+          width: this.content.getWidth()+'px'
+        });
       }
       this.isMaximized = !this.isMaximized;
       this.isMinimized = true;//this will maximize the window into view gets toggled back in this.minimize();
@@ -679,7 +750,15 @@
             height: (($(document.body) == this.parent ? document.viewport.getHeight() : this.parent.getHeight()) - this.padBottom - 2) + 'px'
           },
           duration: this.effectDuration,
-          afterFinish: this.afterResize.bind(this)
+          afterFinish: (function(){
+            if (this.isUrl) {
+              this.content.setStyle({
+                height: '',
+                width: ''
+              });
+            }
+            this.afterResize();
+          }).bind(this)
         });
         if (this.isResizable) {
           this.topResizeDiv.hide();
@@ -698,7 +777,15 @@
             top: this.top + 'px'
           },
           duration: this.effectDuration,
-          afterFinish: this.afterResize.bind(this)
+          afterFinish: (function(){
+            if (this.isUrl) {
+              this.content.setStyle({
+                height: '',
+                width: ''
+              });
+            }
+            this.afterResize();
+          }).bind(this)
         });
         if (this.isResizable) {
           this.topResizeDiv.show();
@@ -709,7 +796,7 @@
       }
     },
     
-    close: function(event){
+    close: function(event, callback){
       if (event) {
         if (event.type == 'click' && !event.isLeftClick()){
           return;
@@ -731,15 +818,17 @@
       new Effect.Fade(this.popIt, {
         duration: this.effectDuration,
         afterFinish: (function(){
-          this.afterClose();
-
+          try {
+            this.afterClose();
+          }
+          catch(e){}
           if (this.lastPopIt){
             this.lastPopIt.popIt.setStyle(this.lastPopIt.oldPosition);
             this.lastPopIt.center();
             this.lastPopIt = null;
           }
  
-          this.destroy();
+          this.destroy(callback);
           
         }).bind(this)
       
@@ -753,7 +842,26 @@
       }
     },
     
-    destroy: function(){
+    destroy: function(callback, retryCounter){
+      if (this.isUrl){
+        var tryAgain = false, starting = typeof retryCounter == 'undefined';
+        retryCounter = starting ? 10 : retryCounter;
+        if (starting && this.content.src != vs.urls.virtualPath + 'blank.htm') {
+            this.content.src = vs.urls.virtualPath + 'blank.htm';
+        }
+        try {
+            if (!this.content.contentWindow.document.body.innerHTML.empty()) {
+                tryAgain = true;
+            }
+        }
+        catch (e) {
+            tryAgain = true;
+        }
+        if (tryAgain && retryCounter){
+          this.destroy.bind(this, callback, retryCounter--).delay(0.2);
+          return;
+        }
+      }
       this.titleBarDiv.stopObserving();
       if (this.minimizeButton) {
         this.minimizeButton.stopObserving();
@@ -793,6 +901,9 @@
         this.shim.remove();
       }
       delete popIts.activePopIts[this.id];
+      if (typeof callback == 'function'){
+        callback();
+      }
     }
   });
 })();
