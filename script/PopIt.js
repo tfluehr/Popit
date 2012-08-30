@@ -121,7 +121,7 @@
   Event.observe(document, 'PopIt:keydown', popIts.keyDownCustom.bind(popIts));
 
   PopIt = Class.create({
-    version: 0.7,
+    version: 0.8,
     initialize: function(content, params){
       Object.extend(this, { // default params
         id: false,
@@ -825,6 +825,7 @@
           if (this.lastPopIt){
             this.lastPopIt.popIt.setStyle(this.lastPopIt.oldPosition);
             this.lastPopIt.center();
+			this.lastPopIt.visible = true;
             this.lastPopIt = null;
           }
  
