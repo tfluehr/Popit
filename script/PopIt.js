@@ -121,7 +121,7 @@
   Event.observe(document, 'PopIt:keydown', popIts.keyDownCustom.bind(popIts));
 
   PopIt = Class.create({
-    version: 0.8,
+    version: 0.9,
     initialize: function(content, params){
       Object.extend(this, { // default params
         id: false,
@@ -146,12 +146,14 @@
         effectDuration: 0.5, //the duration of the various effects that happen with the PopIt
         className: "", //the base classname to use for the PopIt 
         showStatusBar: false,
+        postData: null,
         beforeClose: Prototype.emptyFunction,
         afterClose: Prototype.emptyFunction,
         beforeShow: Prototype.emptyFunction,
         afterShow: Prototype.emptyFunction,
         onPageResized: Prototype.emptyFunction,
-        afterResize: Prototype.emptyFunction
+        afterResize: Prototype.emptyFunction,
+        fixedPosition: false
       });
       
       Object.extend(this, params);
@@ -447,10 +449,11 @@
       this.popIt = new Element('div', {
         className: "popIt " + this.className
       }).setStyle({
-        top: (this.scrollElement.scrollTop + this.offsetTop) + 'px',
+        top: this.fixedPosition ? this.offsetTop + 'px': (this.scrollElement.scrollTop + this.offsetTop) + 'px',
         width: this.width + 'px',
         height: this.height + 'px',
-        zIndex: popIts.zIndex++
+        zIndex: popIts.zIndex++,
+        position: this.fixedPosition ? "fixed" : "absolute"
       });
       this.visible = true;
       if (this.id) {
@@ -583,18 +586,50 @@
       this.title = title;
       this.titleEl.update(this.title);
     },
-    generateContentDiv: function(){
-      if (this.isUrl) {
-        this.content = new Element('iframe', {
-          frameborder: 0, //required for ie
-          className: 'ContentIFrame',
-          src: this.content
-        });
-      }
+    generateContentDiv: function(){     
+      var post = Prototype.emptyFunction;
       
       this.contentDiv = new Element('div', {
         className: 'Content'
-      }).update(this.content);
+      });
+           
+      if (this.isUrl) {
+        if (this.postData) {
+          var url = this.content;
+          this.content = new Element('iframe', {
+            frameborder: 0, //required for ie
+            className: 'ContentIFrame',
+            name: 'PopItForm_' + this.id,
+            src: vs.urls.virtualPath + 'blank.htm'
+          });
+          
+          var form = new Element('form', {
+            action: url,
+            'class': 'Hidden',
+            method: 'post',
+            target: 'PopItForm_' + this.id
+          }).insert(new Element('input', {
+            type: 'hidden',
+            name: 'PopIt_FormData',
+            value: Object.toJSON(this.postData)
+          }));
+          this.contentDiv.insert(form);
+
+          post = function(){
+            form.submit();
+            form.remove();
+          };
+        }
+        else {
+          this.content = new Element('iframe', {
+            frameborder: 0, //required for ie
+            className: 'ContentIFrame',
+            src: this.content
+          });
+        }
+      }
+      
+      this.contentDiv.insert(this.content);
       
       if (this.isUrl) {
         this.contentDiv.setStyle({
@@ -603,6 +638,7 @@
       }
       
       this.popIt.insert(this.contentDiv);
+      post.defer();
     },
     
     generateStatusBarDiv: function(){
@@ -745,7 +781,7 @@
         new Effect.Morph(this.popIt, {
           style: {
             left: '0px',
-            top: this.scrollElement.scrollTop + 'px',
+            top: this.fixedPosition ? this.offsetTop: this.scrollElement.scrollTop + 'px',
             width: (($(document.body) == this.parent ? document.viewport.getWidth() : this.parent.getWidth()) - 3) + 'px',
             height: (($(document.body) == this.parent ? document.viewport.getHeight() : this.parent.getHeight()) - this.padBottom - 2) + 'px'
           },
