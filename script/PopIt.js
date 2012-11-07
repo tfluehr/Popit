@@ -76,7 +76,9 @@
         var oldPopit = nextPopIt.popIt;
         if (oldPopit){
           oldPopit = popIts.activePopIts[oldPopit.identify()];
-          oldPopit.visible = true;
+          if (oldPopit) {
+            oldPopit.visible = true;
+          }
         }
         nextPopIt.effectDuration = 0.2;
         nextPopIt.close(null, popIts.closeNext.curry(nextPopIt.lastPopIt));
@@ -153,6 +155,7 @@
         afterShow: Prototype.emptyFunction,
         onPageResized: Prototype.emptyFunction,
         afterResize: Prototype.emptyFunction,
+        useEffects: true,
         fixedPosition: false
       });
       
@@ -420,7 +423,7 @@
         }
         this.modalShim.hide();
         this.parent.insert(this.modalShim);
-        new Effect.Appear(this.modalShim, {
+        this.modalShim[this.useEffects ? 'appear' : 'show']({
           from: 0,
           to: this.shimOpacity,
           duration: this.effectDuration
@@ -437,13 +440,19 @@
             left: oldPop.getStyle('left'),
             top: oldPop.getStyle('top')
           };
-          new Effect.Morph(oldPop,{
-            style: { // move instead of hide to prevent any issues with internal resize events, etc.
-              left: '-10000px',
-              top: '-10000px'
-            },
-            duration: this.effectDuration
-          });
+          var style = { // move instead of hide to prevent any issues with internal resize events, etc.
+            left: '-10000px',
+            top: '-10000px'
+          };
+          if (this.useEffects) {
+            new Effect.Morph(oldPop, {
+              style: style,
+              duration: this.effectDuration
+            });
+          }
+          else {
+            oldPop.setStyle(style);
+          }
         }
       }
       this.popIt = new Element('div', {
@@ -473,15 +482,24 @@
       this.padBottom = parseInt(this.popIt.getStyle('padding-bottom'), 10);
       this.center();
       this.generateResizeElements();
-      new Effect.Appear(this.popIt, {
-        duration: this.effectDuration,
-        afterFinish: (function(){
-          try {//incase the opener has redirected in ie
-            this.afterShow();
-          }catch(e){}
-        }).bind(this)
-      });
       
+      var afterFinish = (function(){
+        try {//incase the opener has redirected in ie
+          this.afterShow();
+          this.content.contentWindow.focus();
+        }catch(e){}
+      }).bind(this);
+      
+      if (this.useEffects) {
+        new Effect.Appear(this.popIt, {
+          duration: this.effectDuration,
+          afterFinish: afterFinish
+        });
+      }
+      else {
+        this.popIt.show();
+        afterFinish();
+      }     
       
       this.refreshDragDrop();
     },
@@ -594,8 +612,8 @@
       });
            
       if (this.isUrl) {
+        var url = this.content;
         if (this.postData) {
-          var url = this.content;
           this.content = new Element('iframe', {
             frameborder: 0, //required for ie
             className: 'ContentIFrame',
@@ -624,7 +642,7 @@
           this.content = new Element('iframe', {
             frameborder: 0, //required for ie
             className: 'ContentIFrame',
-            src: this.content
+            src: url
           });
         }
       }
@@ -638,7 +656,7 @@
       }
       
       this.popIt.insert(this.contentDiv);
-      post.defer();
+      post.delay(0);
     },
     
     generateStatusBarDiv: function(){
@@ -659,18 +677,25 @@
         event.stop();
       }
       this.isMinimized = !this.isMinimized;
-      
+      var style;
       if (this.isMinimized) {
         this.popIt.setStyle({
           minHeight: '0'
         });
-        new Effect.Morph(this.popIt, {
-          style: {
-            height: '0px'
-          },
-          duration: this.effectDuration,
-          afterFinish: this.afterResize.bind(this)
-        });
+        style = { 
+          height: '0px'
+        };
+        if (this.useEffects) {
+          new Effect.Morph(this.popIt, {
+            style: style,
+            duration: this.effectDuration,
+            afterFinish: this.afterResize.bind(this)
+          });
+        }
+        else {
+          this.popIt.setStyle(style);
+          this.afterResize();
+        }
         if (this.isResizable) {
           this.topResizeDiv.hide();
           this.bottomResizeDiv.hide();
@@ -693,14 +718,21 @@
         if (this.isMaximized) {
           height = (($(document.body) == this.parent ? document.viewport.getHeight() : this.parent.getHeight()) - 5);
         }
-        new Effect.Morph(this.popIt, {
-          style: {
-            height: height + 'px',
-            minHeight: ''
-          },
-          duration: this.effectDuration,
-          afterFinish: this.afterResize.bind(this)
-        });
+        style = { 
+          height: height + 'px',
+          minHeight: ''
+        };
+        if (this.useEffects) {
+          new Effect.Morph(this.popIt, {
+            style: style,
+            duration: this.effectDuration,
+            afterFinish: this.afterResize.bind(this)
+          });
+        }
+        else {
+          this.popIt.setStyle(style);
+          this.afterResize();
+        }
         this.contentDiv.show();
         if (this.showStatusBar) {
           this.statusBarDiv.show();
@@ -774,28 +806,42 @@
       this.isMaximized = !this.isMaximized;
       this.isMinimized = true;//this will maximize the window into view gets toggled back in this.minimize();
       this.minimize(event);
+      
+      var afterFinish = (function(){
+        if (this.isUrl) {
+          this.content.setStyle({
+            height: '',
+            width: ''
+          });
+        }
+        this.afterResize();
+      }).bind(this);
+      var style;
+      
       if (this.isMaximized) {
         this.left = parseInt(this.popIt.getStyle('left'), 10);
         this.top = parseInt(this.popIt.getStyle('top'), 10);
         this.maximizeButton.addClassName('restoreButton');
-        new Effect.Morph(this.popIt, {
-          style: {
-            left: '0px',
-            top: this.fixedPosition ? this.offsetTop: this.scrollElement.scrollTop + 'px',
-            width: (($(document.body) == this.parent ? document.viewport.getWidth() : this.parent.getWidth()) - 3) + 'px',
-            height: (($(document.body) == this.parent ? document.viewport.getHeight() : this.parent.getHeight()) - this.padBottom - 2) + 'px'
-          },
-          duration: this.effectDuration,
-          afterFinish: (function(){
-            if (this.isUrl) {
-              this.content.setStyle({
-                height: '',
-                width: ''
-              });
-            }
-            this.afterResize();
-          }).bind(this)
-        });
+
+        style = { 
+          left: '0px',
+          top: (this.fixedPosition ? this.offsetTop: this.scrollElement.scrollTop) + 'px',
+          width: (($(document.body) == this.parent ? document.viewport.getWidth() : this.parent.getWidth()) - 3) + 'px',
+          height: (($(document.body) == this.parent ? document.viewport.getHeight() : this.parent.getHeight()) - this.padBottom - 2) + 'px'
+        };
+        
+        if (this.useEffects) {
+          new Effect.Morph(this.popIt, {
+            style: style,
+            duration: this.effectDuration,
+            afterFinish: afterFinish
+          });
+        }
+        else {
+          this.popIt.setStyle(style);
+          afterFinish();
+        }
+
         if (this.isResizable) {
           this.topResizeDiv.hide();
           this.rightResizeDiv.hide();
@@ -805,24 +851,26 @@
       }
       else {
         this.maximizeButton.removeClassName('restoreButton');
-        new Effect.Morph(this.popIt, {
-          style: {
-            width: this.width + 'px',
-            height: this.height + 'px',
-            left: this.left + 'px',
-            top: this.top + 'px'
-          },
-          duration: this.effectDuration,
-          afterFinish: (function(){
-            if (this.isUrl) {
-              this.content.setStyle({
-                height: '',
-                width: ''
-              });
-            }
-            this.afterResize();
-          }).bind(this)
-        });
+
+        style = { 
+          width: this.width + 'px',
+          height: this.height + 'px',
+          left: this.left + 'px',
+          top: this.top + 'px'
+        };
+        
+        if (this.useEffects) {
+          new Effect.Morph(this.popIt, {
+            style: style,
+            duration: this.effectDuration,
+            afterFinish: afterFinish
+          });
+        }
+        else {
+          this.popIt.setStyle(style);
+          afterFinish();
+        }
+
         if (this.isResizable) {
           this.topResizeDiv.show();
           this.rightResizeDiv.show();
@@ -844,33 +892,40 @@
 
       if (this.modalShim) {
         this.modalShim.stopObserving();
-        new Effect.Fade(this.modalShim, {
+        this.modalShim[this.useEffects ? "fade" : "hide"]({
           duration: this.effectDuration
         });
       }
       if (this.shim) {
         this.shim.hide();
       }
-      new Effect.Fade(this.popIt, {
-        duration: this.effectDuration,
-        afterFinish: (function(){
-          try {
-            this.afterClose();
-          }
-          catch(e){}
-          if (this.lastPopIt){
-            this.lastPopIt.popIt.setStyle(this.lastPopIt.oldPosition);
-            this.lastPopIt.center();
-			this.lastPopIt.visible = true;
-            this.lastPopIt = null;
-          }
- 
-          this.destroy(callback);
-          
-        }).bind(this)
       
-      });
+      var afterFinish = (function(){
+        try {
+          this.afterClose();
+        } 
+        catch (e) {
+        }
+        if (this.lastPopIt) {
+          this.lastPopIt.popIt.setStyle(this.lastPopIt.oldPosition);
+          this.lastPopIt.center();
+          this.lastPopIt.visible = true;
+          this.lastPopIt = null;
+        }
+        
+        this.destroy(callback);
+      }).bind(this);
       
+      if (this.useEffects){
+        new Effect.Fade(this.popIt, {
+          duration: this.effectDuration,
+          afterFinish: afterFinish        
+        });
+      }
+      else {
+        this.popIt.hide();
+        afterFinish();
+      }
     },
     
     updateStatusText: function(text){
