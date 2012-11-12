@@ -483,6 +483,12 @@
       this.center();
       this.generateResizeElements();
       
+      if (this.isModal && this.parentOverflow !== null && this.parent.style.overflow != 'hidden') {
+        this.parentOverflow = this.parent.style.overflow;
+        this.parent.setStyle({
+          overflow: 'hidden'
+        });
+      }
       var afterFinish = (function(){
         try {//incase the opener has redirected in ie
           this.afterShow();
@@ -896,6 +902,7 @@
           duration: this.effectDuration
         });
       }
+
       if (this.shim) {
         this.shim.hide();
       }
@@ -996,6 +1003,13 @@
       if (typeof callback == 'function'){
         callback();
       }
+      if (this.isModal && this.parentOverflow !== null && !Object.keys(popIts.activePopIts).length) {
+        this.parent.setStyle({
+          overflow: this.parentOverflow
+        });
+        this.parentOverflow = null;
+      }
+
     }
   });
 })();
