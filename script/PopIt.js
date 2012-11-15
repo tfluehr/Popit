@@ -946,7 +946,7 @@
       if (typeof callback == 'function'){
         callback();
       }
-      if (this.isModal && this.parentOverflow !== null && !Object.keys(popIts.activePopIts).length) {
+      if (this.isModal && this.parentOverflow !== null && Object.keys(popIts.activePopIts).length === 1) {
         this.parent.setStyle({
           overflow: this.parentOverflow
         });
