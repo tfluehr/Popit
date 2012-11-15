@@ -156,7 +156,8 @@
         onPageResized: Prototype.emptyFunction,
         afterResize: Prototype.emptyFunction,
         useEffects: true,
-        fixedPosition: false
+        fixedPosition: false,
+        blankHtmlPath: ''
       });
       
       Object.extend(this, params);
@@ -624,7 +625,7 @@
             frameborder: 0, //required for ie
             className: 'ContentIFrame',
             name: 'PopItForm_' + this.id,
-            src: vs.urls.virtualPath + 'blank.htm'
+            src: this.blankHtmlPath
           });
           
           var form = new Element('form', {
@@ -942,12 +943,23 @@
     },
     
     destroy: function(callback, retryCounter){
+      if (typeof callback == 'function'){
+        callback();
+      }
+      if (this.isModal && this.parentOverflow !== null && !Object.keys(popIts.activePopIts).length) {
+        this.parent.setStyle({
+          overflow: this.parentOverflow
+        });
+        this.parentOverflow = null;
+      }
       if (this.isUrl){
         var tryAgain = false, starting = typeof retryCounter == 'undefined';
         retryCounter = starting ? 10 : retryCounter;
-        if (starting && this.content.src != vs.urls.virtualPath + 'blank.htm') {
-            this.content.src = vs.urls.virtualPath + 'blank.htm';
+        if ((starting && !this.content.src.endsWith(this.blankHtmlPath)) || (!starting && retryCounter % 2 === 0)) {
+          // stupid IE (at least 8) - does not always do the navigation on the first try so we reset every 2 cycles to try and correct
+          this.content.src = this.blankHtmlPath;
         }
+
         try {
             if (!this.content.contentWindow.document.body.innerHTML.empty()) {
                 tryAgain = true;
@@ -957,7 +969,8 @@
             tryAgain = true;
         }
         if (tryAgain && retryCounter){
-          this.destroy.bind(this, callback, retryCounter--).delay(0.2);
+          retryCounter--;
+          this.destroy.bind(this, callback, retryCounter).delay(0.2);
           return;
         }
       }
@@ -1000,16 +1013,6 @@
         this.shim.remove();
       }
       delete popIts.activePopIts[this.id];
-      if (typeof callback == 'function'){
-        callback();
-      }
-      if (this.isModal && this.parentOverflow !== null && !Object.keys(popIts.activePopIts).length) {
-        this.parent.setStyle({
-          overflow: this.parentOverflow
-        });
-        this.parentOverflow = null;
-      }
-
     }
   });
 })();
